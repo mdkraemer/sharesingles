@@ -183,7 +183,7 @@ table(bigfive[2], useNA = "always")
 
 I then add data on life satifaction, using both the CASP-12 index and the life
 satisfaction question from the AC module. The CASP index seems to have a high 
-number of missings (~4,500) and no data at all from Romania (another ~2000.
+number of missings (~4,500) and no data at all from Romania (another ~2000).
 ```{r life satisfaction}
 
 # Load SHARE module gv health
@@ -204,6 +204,7 @@ table(ac012$ac012_, useNA = "always")
 ac012$ac012_[ac012$ac012_ < 0] <- NA
 summary(casp) #many SHARE missings!! No data from Romania.
 ```
+
 Next, I add info on age and gender of the respondents. For simplicity, age is 
 calculated at the year 2017, regardless of whether the interview took place before 
 or after the respondents' birthday.
@@ -227,6 +228,7 @@ age <- dn %>%
   
 summary(age$age)
 ```
+
 I use the generated variables from the ISCED dataset for education.
 ``` {r education}
 
@@ -244,10 +246,11 @@ educ$isced1997_r[educ$isced1997_r < 0] <- NA
 summary(educ$isced1997_r)
 
 ```
+
 Income is taken from the imputations dataset. I solely use the first calculation 
 for now. I am not sure whether this is best practice, but I will ask around and 
 it should be easy to fix in case it is not. Note that the "thinc" variable has 
-an implausible amoount of 0 values. I would recommend to use thinc2, which does
+an implausible amount of 0 values. I would recommend to use thinc2, which does
 not have this problem.
 ``` {r income}
 
@@ -259,6 +262,7 @@ income <- impu[impu$implicat==1,] %>%
   select(mergeid, thinc2, thinc)
 
 ```
+
 I then join all datasets, keeping only those cases that match. No IDs are lost 
 in the process.
 ```{r merge datasets}
@@ -273,5 +277,5 @@ data5 <- inner_join(data4, casp, by="mergeid")
 data6 <- inner_join(data5, educ, by="mergeid")
 data_prepped <- inner_join(data6, income, by="mergeid")
 summary(data_prepped)
-
+save(data_prepped, file = "data/01_cleaned/df_singles.rda")
 ```

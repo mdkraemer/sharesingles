@@ -11,7 +11,7 @@
 
 <meta name="author" content="Alexander Schumacher" />
 
-<meta name="date" content="2023-06-19" />
+<meta name="date" content="2023-07-13" />
 
 <title>Singles in SHARE Data Prep</title>
 
@@ -352,7 +352,7 @@ display: none;
 
 <h1 class="title toc-ignore">Singles in SHARE Data Prep</h1>
 <h4 class="author">Alexander Schumacher</h4>
-<h4 class="date">2023-06-19</h4>
+<h4 class="date">2023-07-13</h4>
 
 </div>
 
@@ -570,7 +570,7 @@ table(bigfive[2], useNA = &quot;always&quot;)</code></pre>
 <p>I then add data on life satifaction, using both the CASP-12 index and
 the life satisfaction question from the AC module. The CASP index seems
 to have a high number of missings (~4,500) and no data at all from
-Romania (another ~2000.</p>
+Romania (another ~2000).</p>
 <pre class="r"><code># Load SHARE module gv health
 gvhealth &lt;- read_dta(&quot;data/00_raw/w7/sharew7_rel8-0-0_gv_health.dta&quot;)
 
@@ -585,10 +585,8 @@ ac012 &lt;- ac %&gt;% select(mergeid, ac012_)
 
 table(ac012$ac012_, useNA = &quot;always&quot;)</code></pre>
 <pre><code>## 
-##    -2    -1     0     1     2     3     4     5     6     7     8     9    10 
-##   127  2303   484   286   550  1060  1491  7571  5636 12274 22544 11150 11506 
-##  &lt;NA&gt; 
-##   220</code></pre>
+##    -2    -1     0     1     2     3     4     5     6     7     8     9    10  &lt;NA&gt; 
+##   127  2303   484   286   550  1060  1491  7571  5636 12274 22544 11150 11506   220</code></pre>
 <pre class="r"><code># Recode missings
 ac012$ac012_[ac012$ac012_ &lt; 0] &lt;- NA
 summary(casp) #many SHARE missings!! No data from Romania.</code></pre>
@@ -642,8 +640,8 @@ summary(educ$isced1997_r)</code></pre>
 <p>Income is taken from the imputations dataset. I solely use the first
 calculation for now. I am not sure whether this is best practice, but I
 will ask around and it should be easy to fix in case it is not. Note
-that the “thinc” variable has an implausible amoount of 0 values. I
-would recommend to use thinc2, which does not have this problem.</p>
+that the “thinc” variable has an implausible amount of 0 values. I would
+recommend to use thinc2, which does not have this problem.</p>
 <pre class="r"><code># Load imputations data set
 impu &lt;- read_dta(&quot;data/00_raw/w7/sharew7_rel8-0-0_gv_imputations.dta&quot;)
 
@@ -669,46 +667,31 @@ data5 &lt;- inner_join(data4, casp, by=&quot;mergeid&quot;)
 data6 &lt;- inner_join(data5, educ, by=&quot;mergeid&quot;)
 data_prepped &lt;- inner_join(data6, income, by=&quot;mergeid&quot;)
 summary(data_prepped)</code></pre>
-<pre><code>##    mergeid              female          dn003_          age        
-##  Length:77202       Min.   :0.000   Min.   :1912   Min.   : 22.00  
-##  Class :character   1st Qu.:0.000   1st Qu.:1941   1st Qu.: 61.00  
-##  Mode  :character   Median :1.000   Median :1949   Median : 68.00  
-##                     Mean   :0.571   Mean   :1949   Mean   : 68.47  
-##                     3rd Qu.:1.000   3rd Qu.:1956   3rd Qu.: 76.00  
-##                     Max.   :1.000   Max.   :1995   Max.   :105.00  
-##                                     NA&#39;s   :7      NA&#39;s   :7       
-##   evermarried       evercohab         everlat        bfi10_extra   
-##  Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :1.000  
-##  1st Qu.:1.0000   1st Qu.:1.0000   1st Qu.:1.0000   1st Qu.:3.000  
-##  Median :1.0000   Median :1.0000   Median :1.0000   Median :3.500  
-##  Mean   :0.9358   Mean   :0.9619   Mean   :0.9693   Mean   :3.482  
-##  3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:4.000  
-##  Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :5.000  
-##  NA&#39;s   :179      NA&#39;s   :156      NA&#39;s   :163      NA&#39;s   :3095   
-##   bfi10_agree     bfi10_consc     bfi10_neuro      bfi10_open   
-##  Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000  
-##  1st Qu.:3.000   1st Qu.:3.500   1st Qu.:2.000   1st Qu.:2.500  
-##  Median :3.500   Median :4.000   Median :2.500   Median :3.000  
-##  Mean   :3.657   Mean   :4.121   Mean   :2.668   Mean   :3.292  
-##  3rd Qu.:4.500   3rd Qu.:5.000   3rd Qu.:3.500   3rd Qu.:4.000  
-##  Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.000  
-##  NA&#39;s   :3002    NA&#39;s   :3008    NA&#39;s   :2950    NA&#39;s   :3196   
-##      ac012_            casp        isced1997_r         thinc2      
-##  Min.   : 0.000   Min.   :12.00   Min.   : 0.000   Min.   :     0  
-##  1st Qu.: 7.000   1st Qu.:32.00   1st Qu.: 2.000   1st Qu.:  8457  
-##  Median : 8.000   Median :37.00   Median : 3.000   Median : 15600  
-##  Mean   : 7.564   Mean   :36.84   Mean   : 3.128   Mean   : 23275  
-##  3rd Qu.: 9.000   3rd Qu.:42.00   3rd Qu.: 4.000   3rd Qu.: 30000  
-##  Max.   :10.000   Max.   :48.00   Max.   :97.000   Max.   :647657  
-##  NA&#39;s   :2650     NA&#39;s   :6607    NA&#39;s   :171                      
-##      thinc        
-##  Min.   :      0  
-##  1st Qu.:      0  
-##  Median :      0  
-##  Mean   :   5533  
-##  3rd Qu.:      0  
-##  Max.   :7399056  
+<pre><code>##    mergeid              female          dn003_          age          evermarried       evercohab         everlat      
+##  Length:77202       Min.   :0.000   Min.   :1912   Min.   : 22.00   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
+##  Class :character   1st Qu.:0.000   1st Qu.:1941   1st Qu.: 61.00   1st Qu.:1.0000   1st Qu.:1.0000   1st Qu.:1.0000  
+##  Mode  :character   Median :1.000   Median :1949   Median : 68.00   Median :1.0000   Median :1.0000   Median :1.0000  
+##                     Mean   :0.571   Mean   :1949   Mean   : 68.47   Mean   :0.9358   Mean   :0.9619   Mean   :0.9693  
+##                     3rd Qu.:1.000   3rd Qu.:1956   3rd Qu.: 76.00   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000  
+##                     Max.   :1.000   Max.   :1995   Max.   :105.00   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000  
+##                                     NA&#39;s   :7      NA&#39;s   :7        NA&#39;s   :179      NA&#39;s   :156      NA&#39;s   :163     
+##   bfi10_extra     bfi10_agree     bfi10_consc     bfi10_neuro      bfi10_open        ac012_            casp        isced1997_r    
+##  Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   : 0.000   Min.   :12.00   Min.   : 0.000  
+##  1st Qu.:3.000   1st Qu.:3.000   1st Qu.:3.500   1st Qu.:2.000   1st Qu.:2.500   1st Qu.: 7.000   1st Qu.:32.00   1st Qu.: 2.000  
+##  Median :3.500   Median :3.500   Median :4.000   Median :2.500   Median :3.000   Median : 8.000   Median :37.00   Median : 3.000  
+##  Mean   :3.482   Mean   :3.657   Mean   :4.121   Mean   :2.668   Mean   :3.292   Mean   : 7.564   Mean   :36.84   Mean   : 3.128  
+##  3rd Qu.:4.000   3rd Qu.:4.500   3rd Qu.:5.000   3rd Qu.:3.500   3rd Qu.:4.000   3rd Qu.: 9.000   3rd Qu.:42.00   3rd Qu.: 4.000  
+##  Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :10.000   Max.   :48.00   Max.   :97.000  
+##  NA&#39;s   :3095    NA&#39;s   :3002    NA&#39;s   :3008    NA&#39;s   :2950    NA&#39;s   :3196    NA&#39;s   :2650     NA&#39;s   :6607    NA&#39;s   :171     
+##      thinc2           thinc        
+##  Min.   :     0   Min.   :      0  
+##  1st Qu.:  8457   1st Qu.:      0  
+##  Median : 15600   Median :      0  
+##  Mean   : 23275   Mean   :   5533  
+##  3rd Qu.: 30000   3rd Qu.:      0  
+##  Max.   :647657   Max.   :7399056  
 ## </code></pre>
+<pre class="r"><code>save(data_prepped, file = &quot;data/01_cleaned/df_singles.rda&quot;)</code></pre>
 </div>
 
 

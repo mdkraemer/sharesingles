@@ -1,0 +1,176 @@
+---
+title: "Singlehood SHARE: Analyses Overview"
+author: "Michael Krämer"
+toc: true
+toc-depth: 5
+toc-title: Contents
+number-sections: true
+execute:
+  cache: true
+format:
+#  docx:
+#    highlight-style: github
+  html:
+    link-external-icon: true
+    link-external-newwindow: true
+    code-block-bg: true
+    code-block-border-left: "#31BAE9"
+#comments:
+#  hypothesis: true
+editor: source
+#bibliography: references-zotero.bib
+#csl: apa.csl
+---
+<!--
+You can find the preregistration [here](https://osf.io/xbua4).
+-->
+
+## Load packages
+
+```{r}
+#| echo: true
+#| warning: false
+#| code-fold: true
+#| code-summary: "Show the code"
+#| cache: false
+library(renv)
+library(tidyverse)
+library(broom)
+library(labelled)
+library(psych)
+library(GPArotation)
+```
+
+## Load data
+
+```{r}
+#| echo: true
+#| warning: false
+#| output: false
+#| code-fold: true
+#| code-summary: "Show the code"
+#| cache: true
+load("data/01_cleaned/df_singles.rda")
+```
+
+## Confirmatory results
+
+### Hypothesis 1: Extraversion {#hyp1}
+
+*Lifelong singles self-report lower levels of extraversion as compared to partnered individuals.* 
+
+To examine this ...
+
+#### Model
+
+Computations:
+```{r}
+#| echo: true
+#| warning: false
+#| code-fold: true
+#| code-summary: "Show the code"
+
+
+
+```
+
+Results:
+```{r}
+#| echo: true
+
+
+```
+
+::: {.callout-note appearance="minimal"}
+interpretation
+:::
+
+### Hypothesis 2: Neuroticism {#hyp2}
+
+*Lifelong singles self-report higher levels of neuroticism as compared to partnered individuals.* 
+
+To examine this ...
+
+#### Model
+
+Computations:
+```{r}
+#| echo: true
+#| warning: false
+#| code-fold: true
+#| code-summary: "Show the code"
+
+
+
+```
+
+Results:
+```{r}
+#| echo: true
+
+
+```
+
+::: {.callout-note appearance="minimal"}
+interpretation
+:::
+
+### Hypothesis 3: Conscientiousness {#hyp3}
+
+*Lifelong singles self-report lower levels of conscientiousness as compared to partnered individuals.* 
+
+To examine this ...
+
+#### Model
+
+Computations:
+```{r}
+#| echo: true
+#| warning: false
+#| code-fold: true
+#| code-summary: "Show the code"
+
+
+
+```
+
+Results:
+```{r}
+#| echo: true
+
+
+```
+
+::: {.callout-note appearance="minimal"}
+interpretation
+:::
+
+### Hypothesis 4: Life Satisfaction {#hyp4}
+
+*Lifelong singles self-report lower levels of life satisfaction as compared to partnered individuals.* 
+
+To examine this ...
+
+#### Model
+
+Computations:
+```{r}
+#| echo: true
+#| warning: false
+#| code-fold: true
+#| code-summary: "Show the code"
+
+
+
+```
+
+Results:
+```{r}
+#| echo: true
+
+
+```
+
+::: {.callout-note appearance="minimal"}
+interpretation
+:::
