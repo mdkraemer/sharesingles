@@ -1,0 +1,277 @@
+---
+title: "Singles in SHARE Data Prep"
+author: "Alexander Schumacher"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(magrittr)
+library(knitr)
+library(haven)
+```
+
+# Data import SHARELIFE
+I import data from the SHARELIFE relationship modules in waves 3 and 7. To account for the time between waves 3 and 7, I use the demographic and coverscreen data from waves 4 to 7.
+```{r dta import}
+library(haven)
+rp_w3 <- read_dta("data/00_raw/w3/sharew3_rel8-0-0_rp.dta")
+
+rp_w7 <- read_dta("data/00_raw/w7/sharew7_rel8-0-0_rp.dta")
+
+# Load Waves 4 to 6 for info on marital status
+dn4 <- read_dta("data/00_raw/w4/sharew4_rel8-0-0_dn.dta")
+dn5 <- read_dta("data/00_raw/w5/sharew5_rel8-0-0_dn.dta")
+dn6 <- read_dta("data/00_raw/w6/sharew6_rel8-0-0_dn.dta")
+dn7 <- read_dta("data/00_raw/w7/sharew7_rel8-0-0_dn.dta")
+
+
+# Load Waves 4 to 6 for info on partner in HH
+cvr4 <- read_dta("data/00_raw/w4/sharew4_rel8-0-0_cv_r.dta")
+cvr5 <- read_dta("data/00_raw/w5/sharew5_rel8-0-0_cv_r.dta")
+cvr6 <- read_dta("data/00_raw/w6/sharew6_rel8-0-0_cv_r.dta")
+cvr7 <- read_dta("data/00_raw/w7/sharew7_rel8-0-0_cv_r.dta")
+
+table(rp_w3$sl_rp002_)
+table(rp_w3$sl_rp002d_)
+table(rp_w3$sl_rp016_)
+```
+I then construct variables determining whether a respondent has ever been married, cohabited or been in a long-term relationship.
+```{r variable construction}
+
+#Recode missings and change binary format
+
+#W3
+table(rp_w3$sl_rp002_, useNA="always")
+rp_w3r <- rp_w3 %>% mutate_at(vars(sl_rp002_, sl_rp002d_, sl_rp016_), list(~case_match(., 1 ~ 1, 5 ~ 0)))
+table(rp_w3r$sl_rp002_, useNA="always")
+#W7
+table(rp_w7$rp002_, useNA="always")
+rp_w7r <- rp_w7 %>% mutate_at(vars(rp002_, rp002d_, rp016_), list(~case_match(., 1 ~ 1, 5 ~ 0))) 
+table(rp_w7r$rp002_, useNA="always")
+
+## Update W3 info with Waves 4 to 7
+
+# Join info on marital status from DN modules
+married_w3 <- left_join(rp_w3r, dn4, by="mergeid", suffix=c("", ".4"))
+married_w3 <- left_join(married_w3, dn5, by="mergeid", suffix=c("", ".5"))
+married_w3 <- left_join(married_w3, dn6, by="mergeid", suffix=c("", ".6"))
+married_w3 <- left_join(married_w3, dn7, by="mergeid", suffix=c("", ".7"))
+
+
+# Join info on cohabitation from coverscreen
+married_w3 <- left_join(married_w3, cvr4, by="mergeid", suffix=c("", ".4"))
+married_w3 <- left_join(married_w3, cvr5, by="mergeid", suffix=c("", ".5"))
+married_w3 <- left_join(married_w3, cvr6, by="mergeid", suffix=c("", ".6"))
+married_w3 <- left_join(married_w3, cvr7, by="mergeid", suffix=c("", ".7"))
+
+
+# Select relevant variables
+married_w3 <- select(married_w3, one_of(c("mergeid", "sl_rp002_", "sl_rp002d_",  "sl_rp016_", "dn014_", "dn014_.5", "dn014_.6", "dn014_.7", "dn040_", "dn040_.5", "dn040_.6", "dn040_.7", "partnerinhh", "partnerinhh.5", "partnerinhh.6", "partnerinhh.7")))
+
+# Create index variables for cohabitation, marriage and LAT in any of the waves
+married_w6 <- married_w3 %>%
+  mutate(., newlywed = dn014_!=4 & !is.na(dn014_)) %>%
+  mutate(., newlywed = dn014_.5!=4 & !is.na(dn014_.5) | newlywed==TRUE) %>%
+  mutate(., newlywed = dn014_.6!=4 & !is.na(dn014_.6) | newlywed==TRUE) %>%
+  mutate(., newlywed = dn014_.7!=4 & !is.na(dn014_.7) | newlywed==TRUE) %>%
+  mutate(., roomies = partnerinhh==1) %>%
+  mutate(., roomies = partnerinhh.5==1 | roomies==TRUE) %>%
+  mutate(., roomies = partnerinhh.6==1 | roomies==TRUE) %>%
+  mutate(., roomies = partnerinhh.7==1 | roomies==TRUE) %>%
+  mutate(., grasswidow = dn040_==1) %>%
+  mutate(., grasswidow = dn040_.5==1 | grasswidow==TRUE) %>%
+  mutate(., grasswidow = dn040_.6==1 | grasswidow==TRUE) %>%
+  mutate(., grasswidow = dn040_.7==1 | grasswidow==TRUE)
+
+
+# Correct marriage variable with W4 to W7 data
+table(married_w6$sl_rp002_, useNA="always")
+married_w6$sl_rp002_[married_w6$newlywed==TRUE] <- 1
+table(married_w6$sl_rp002_, useNA="always")
+
+# Correct cohabitation variable with W4 to W7 data
+table(married_w6$sl_rp002d_, useNA="always")
+married_w6$sl_rp002d_[married_w6$roomies==TRUE] <- 1
+table(married_w6$sl_rp002d_, useNA="always")
+
+# Correct cohabitation variable with W4 to W7 data
+table(married_w6$sl_rp016_, useNA="always")
+married_w6$sl_rp016_[married_w6$grasswidow==TRUE] <- 1
+table(married_w6$sl_rp016_, useNA="always")
+
+#Join Waves
+married_w6 <- select(married_w6, one_of(c("mergeid", "sl_rp002_", "sl_rp002d_", "sl_rp016_")))
+married_w7 <- select(rp_w7r, one_of(c("mergeid", "rp002_", "rp002d_", "rp016_")))
+married <- full_join(married_w6, married_w7, by="mergeid")
+
+
+# Construct marriage variable from W7 info
+married <- married %>%  mutate(evermarried=rp002_) 
+
+# Fill missings with W3 info
+married$evermarried[is.na(married$rp002_)] <-     married$sl_rp002_[is.na(married$rp002_)]
+
+table(married$evermarried, useNA="always") 
+
+
+# Construct cohabitation variable from W7 info
+married <- married %>% mutate(cohabited=rp002d_)
+
+# Fill missings with W3 info
+married$cohabited[is.na(married$rp002d_)] <-     married$sl_rp002d_[is.na(married$rp002d_)]
+
+# Use marriage info for cohabitation variable
+married <- married %>% mutate(evercohab = if_else(evermarried==0, cohabited, evermarried, cohabited))
+
+
+# Construct LAT variable from W7 info
+married <- married %>% mutate(lat=rp016_)
+
+# Fill missings with W3 info
+married$lat[is.na(married$rp016_)] <-   married$sl_rp016_[is.na(married$rp016_)]
+
+# Use cohabitation info for LAT variable
+married <- married %>% mutate(everlat = if_else(evercohab==0, lat, evercohab, lat))
+married <- married %>% select(mergeid, evermarried, evercohab, everlat)
+
+table(married$evermarried, useNA="always") 
+table(married$evercohab, useNA="always") 
+table(married$everlat, useNA="always") 
+
+
+```
+
+Next, I add data on the Big 5 personality traits. Since the Big 5 have not been 
+asked to SHARELIFE respondents in Wave 7, I supplement Wave 8 info on the Big 5
+for these cases.
+```{r personality traits}
+
+# Load SHARE modules for Big 5
+# W7
+b5_w7 <- read_dta("data/00_raw/w7/sharew7_rel8-0-0_gv_big5.dta")
+table(b5_w7$bfi10_extra, useNA="always") 
+
+#W8
+b5_w8 <- read_dta("data/00_raw/w8/sharew8_rel8-0-0_gv_big5.dta")
+table(b5_w8$bfi10_extra, useNA="always") 
+
+# Select relevant variables 
+big5_w7 <- select(b5_w7, one_of(c("mergeid", "bfi10_extra", "bfi10_agree", "bfi10_consc", "bfi10_neuro", "bfi10_open")))
+big5_w8 <- select(b5_w8, one_of(c("mergeid", "bfi10_extra", "bfi10_agree", "bfi10_consc", "bfi10_neuro", "bfi10_open")))
+
+
+# Join waves 7 and 8
+bigfive <- full_join(big5_w7, big5_w8, by="mergeid", suffix=c("", ".8"))
+
+# Substitute missings in wave 7 by wave 8 data
+bifi <- bigfive
+for (i in 2:6) {
+  j <- i+5
+  bifi[is.na(bifi[,i]), i] <- bifi[is.na(bifi[,i]), j]
+}
+
+#Keep only relevant variables
+bigfive <- bifi[,1:6]
+
+table(bigfive[2], useNA = "always")
+```
+
+I then add data on life satifaction, using both the CASP-12 index and the life
+satisfaction question from the AC module. The CASP index seems to have a high 
+number of missings (~4,500) and no data at all from Romania (another ~2000.
+```{r life satisfaction}
+
+# Load SHARE module gv health
+gvhealth <- read_dta("data/00_raw/w7/sharew7_rel8-0-0_gv_health.dta")
+
+# Keep CASP and mergeid columns
+casp <- gvhealth %>% select(mergeid, casp)
+
+# Load W7 AC module
+ac <- read_dta("data/00_raw/w7/sharew7_rel8-0-0_ac.dta")
+
+# Keep life satisfaction and mergeid columns
+ac012 <- ac %>% select(mergeid, ac012_)
+
+table(ac012$ac012_, useNA = "always")
+
+# Recode missings
+ac012$ac012_[ac012$ac012_ < 0] <- NA
+summary(casp) #many SHARE missings!! No data from Romania.
+```
+Next, I add info on age and gender of the respondents. For simplicity, age is 
+calculated at the year 2017, regardless of whether the interview took place before 
+or after the respondents' birthday.
+``` {r age and gender}
+
+#Load demographics data set 
+dn <- read_dta("data/00_raw/w7/sharew7_rel8-0-0_dn.dta")
+
+# Recode binary format
+gender <- dn %>% 
+  select(mergeid, dn042_) %>%
+  mutate_at(vars(dn042_), list(~case_match(., 2 ~ 1, 1 ~ 0, -2 ~ NA, -1 ~ NA)))
+
+gender$female <- gender$dn042_
+gender <- gender[,c(1,3)]
+
+# Calculate age (in 2017) from year of birth 
+age <- dn %>% 
+   mutate(age = 2017 - dn003_) %>%
+  select(mergeid, dn003_, age)
+  
+summary(age$age)
+```
+I use the generated variables from the ISCED dataset for education.
+``` {r education}
+
+# Load ISCED generated variables data set
+isced <- read_dta("data/00_raw/w7/sharew7_rel8-0-0_gv_isced.dta")
+summary(isced$isced1997_r)
+
+# Select relevant variables
+educ <- isced %>%
+  select(mergeid, isced1997_r)
+
+# Recode missings
+educ$isced1997_r[educ$isced1997_r < 0] <- NA
+
+summary(educ$isced1997_r)
+
+```
+Income is taken from the imputations dataset. I solely use the first calculation 
+for now. I am not sure whether this is best practice, but I will ask around and 
+it should be easy to fix in case it is not. Note that the "thinc" variable has 
+an implausible amoount of 0 values. I would recommend to use thinc2, which does
+not have this problem.
+``` {r income}
+
+# Load imputations data set
+impu <- read_dta("data/00_raw/w7/sharew7_rel8-0-0_gv_imputations.dta")
+
+# Use only the first of the imputation values
+income <- impu[impu$implicat==1,] %>%
+  select(mergeid, thinc2, thinc)
+
+```
+I then join all datasets, keeping only those cases that match. No IDs are lost 
+in the process.
+```{r merge datasets}
+
+
+data1 <- full_join(gender, age, by ="mergeid")
+summary(data1)
+data2 <- inner_join(data1, married, by="mergeid")
+data3 <- inner_join(data2, bigfive, by="mergeid")
+data4 <- inner_join(data3, ac012, by="mergeid")
+data5 <- inner_join(data4, casp, by="mergeid")
+data6 <- inner_join(data5, educ, by="mergeid")
+data_prepped <- inner_join(data6, income, by="mergeid")
+summary(data_prepped)
+
+```

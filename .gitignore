@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.Rprofile
+
+# folders
+/data
+/renv
+/sharesingles_first_results_cache/
+/sharesingles_first_results_files/

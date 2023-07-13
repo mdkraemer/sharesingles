@@ -1,0 +1,694 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Singles in SHARE Data Prep},
+  pdfauthor={Alexander Schumacher},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Singles in SHARE Data Prep}
+\author{Alexander Schumacher}
+\date{2023-06-19}
+
+\begin{document}
+\maketitle
+
+\hypertarget{data-import-sharelife}{%
+\section{Data import SHARELIFE}\label{data-import-sharelife}}
+
+I import data from the SHARELIFE relationship modules in waves 3 and 7.
+To account for the time between waves 3 and 7, I use the demographic and
+coverscreen data from waves 4 to 7.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(haven)}
+\NormalTok{rp\_w3 }\OtherTok{\textless{}{-}} \FunctionTok{read\_dta}\NormalTok{(}\StringTok{"data/00\_raw/w3/sharew3\_rel8{-}0{-}0\_rp.dta"}\NormalTok{)}
+
+\NormalTok{rp\_w7 }\OtherTok{\textless{}{-}} \FunctionTok{read\_dta}\NormalTok{(}\StringTok{"data/00\_raw/w7/sharew7\_rel8{-}0{-}0\_rp.dta"}\NormalTok{)}
+
+\CommentTok{\# Load Waves 4 to 6 for info on marital status}
+\NormalTok{dn4 }\OtherTok{\textless{}{-}} \FunctionTok{read\_dta}\NormalTok{(}\StringTok{"data/00\_raw/w4/sharew4\_rel8{-}0{-}0\_dn.dta"}\NormalTok{)}
+\NormalTok{dn5 }\OtherTok{\textless{}{-}} \FunctionTok{read\_dta}\NormalTok{(}\StringTok{"data/00\_raw/w5/sharew5\_rel8{-}0{-}0\_dn.dta"}\NormalTok{)}
+\NormalTok{dn6 }\OtherTok{\textless{}{-}} \FunctionTok{read\_dta}\NormalTok{(}\StringTok{"data/00\_raw/w6/sharew6\_rel8{-}0{-}0\_dn.dta"}\NormalTok{)}
+\NormalTok{dn7 }\OtherTok{\textless{}{-}} \FunctionTok{read\_dta}\NormalTok{(}\StringTok{"data/00\_raw/w7/sharew7\_rel8{-}0{-}0\_dn.dta"}\NormalTok{)}
+
+
+\CommentTok{\# Load Waves 4 to 6 for info on partner in HH}
+\NormalTok{cvr4 }\OtherTok{\textless{}{-}} \FunctionTok{read\_dta}\NormalTok{(}\StringTok{"data/00\_raw/w4/sharew4\_rel8{-}0{-}0\_cv\_r.dta"}\NormalTok{)}
+\NormalTok{cvr5 }\OtherTok{\textless{}{-}} \FunctionTok{read\_dta}\NormalTok{(}\StringTok{"data/00\_raw/w5/sharew5\_rel8{-}0{-}0\_cv\_r.dta"}\NormalTok{)}
+\NormalTok{cvr6 }\OtherTok{\textless{}{-}} \FunctionTok{read\_dta}\NormalTok{(}\StringTok{"data/00\_raw/w6/sharew6\_rel8{-}0{-}0\_cv\_r.dta"}\NormalTok{)}
+\NormalTok{cvr7 }\OtherTok{\textless{}{-}} \FunctionTok{read\_dta}\NormalTok{(}\StringTok{"data/00\_raw/w7/sharew7\_rel8{-}0{-}0\_cv\_r.dta"}\NormalTok{)}
+
+\FunctionTok{table}\NormalTok{(rp\_w3}\SpecialCharTok{$}\NormalTok{sl\_rp002\_)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##    -1     1     5 
+##     4 26725  1680
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(rp\_w3}\SpecialCharTok{$}\NormalTok{sl\_rp002d\_)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##    -2    -1     1     5 
+##    11     9  2248 26139
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(rp\_w3}\SpecialCharTok{$}\NormalTok{sl\_rp016\_)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##    -2    -1     1     5 
+##    27    37  2402 25940
+\end{verbatim}
+
+I then construct variables determining whether a respondent has ever
+been married, cohabited or been in a long-term relationship.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Recode missings and change binary format}
+
+\CommentTok{\#W3}
+\FunctionTok{table}\NormalTok{(rp\_w3}\SpecialCharTok{$}\NormalTok{sl\_rp002\_, }\AttributeTok{useNA=}\StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##    -1     1     5  <NA> 
+##     4 26725  1680    54
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rp\_w3r }\OtherTok{\textless{}{-}}\NormalTok{ rp\_w3 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate\_at}\NormalTok{(}\FunctionTok{vars}\NormalTok{(sl\_rp002\_, sl\_rp002d\_, sl\_rp016\_), }\FunctionTok{list}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\FunctionTok{case\_match}\NormalTok{(., }\DecValTok{1} \SpecialCharTok{\textasciitilde{}} \DecValTok{1}\NormalTok{, }\DecValTok{5} \SpecialCharTok{\textasciitilde{}} \DecValTok{0}\NormalTok{)))}
+\FunctionTok{table}\NormalTok{(rp\_w3r}\SpecialCharTok{$}\NormalTok{sl\_rp002\_, }\AttributeTok{useNA=}\StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##     0     1  <NA> 
+##  1680 26725    58
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#W7}
+\FunctionTok{table}\NormalTok{(rp\_w7}\SpecialCharTok{$}\NormalTok{rp002\_, }\AttributeTok{useNA=}\StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##    -2    -1     1     5  <NA> 
+##    42    17 58881  4207 14055
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rp\_w7r }\OtherTok{\textless{}{-}}\NormalTok{ rp\_w7 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate\_at}\NormalTok{(}\FunctionTok{vars}\NormalTok{(rp002\_, rp002d\_, rp016\_), }\FunctionTok{list}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\FunctionTok{case\_match}\NormalTok{(., }\DecValTok{1} \SpecialCharTok{\textasciitilde{}} \DecValTok{1}\NormalTok{, }\DecValTok{5} \SpecialCharTok{\textasciitilde{}} \DecValTok{0}\NormalTok{))) }
+\FunctionTok{table}\NormalTok{(rp\_w7r}\SpecialCharTok{$}\NormalTok{rp002\_, }\AttributeTok{useNA=}\StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##     0     1  <NA> 
+##  4207 58881 14114
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Update W3 info with Waves 4 to 7}
+
+\CommentTok{\# Join info on marital status from DN modules}
+\NormalTok{married\_w3 }\OtherTok{\textless{}{-}} \FunctionTok{left\_join}\NormalTok{(rp\_w3r, dn4, }\AttributeTok{by=}\StringTok{"mergeid"}\NormalTok{, }\AttributeTok{suffix=}\FunctionTok{c}\NormalTok{(}\StringTok{""}\NormalTok{, }\StringTok{".4"}\NormalTok{))}
+\NormalTok{married\_w3 }\OtherTok{\textless{}{-}} \FunctionTok{left\_join}\NormalTok{(married\_w3, dn5, }\AttributeTok{by=}\StringTok{"mergeid"}\NormalTok{, }\AttributeTok{suffix=}\FunctionTok{c}\NormalTok{(}\StringTok{""}\NormalTok{, }\StringTok{".5"}\NormalTok{))}
+\NormalTok{married\_w3 }\OtherTok{\textless{}{-}} \FunctionTok{left\_join}\NormalTok{(married\_w3, dn6, }\AttributeTok{by=}\StringTok{"mergeid"}\NormalTok{, }\AttributeTok{suffix=}\FunctionTok{c}\NormalTok{(}\StringTok{""}\NormalTok{, }\StringTok{".6"}\NormalTok{))}
+\NormalTok{married\_w3 }\OtherTok{\textless{}{-}} \FunctionTok{left\_join}\NormalTok{(married\_w3, dn7, }\AttributeTok{by=}\StringTok{"mergeid"}\NormalTok{, }\AttributeTok{suffix=}\FunctionTok{c}\NormalTok{(}\StringTok{""}\NormalTok{, }\StringTok{".7"}\NormalTok{))}
+
+
+\CommentTok{\# Join info on cohabitation from coverscreen}
+\NormalTok{married\_w3 }\OtherTok{\textless{}{-}} \FunctionTok{left\_join}\NormalTok{(married\_w3, cvr4, }\AttributeTok{by=}\StringTok{"mergeid"}\NormalTok{, }\AttributeTok{suffix=}\FunctionTok{c}\NormalTok{(}\StringTok{""}\NormalTok{, }\StringTok{".4"}\NormalTok{))}
+\NormalTok{married\_w3 }\OtherTok{\textless{}{-}} \FunctionTok{left\_join}\NormalTok{(married\_w3, cvr5, }\AttributeTok{by=}\StringTok{"mergeid"}\NormalTok{, }\AttributeTok{suffix=}\FunctionTok{c}\NormalTok{(}\StringTok{""}\NormalTok{, }\StringTok{".5"}\NormalTok{))}
+\NormalTok{married\_w3 }\OtherTok{\textless{}{-}} \FunctionTok{left\_join}\NormalTok{(married\_w3, cvr6, }\AttributeTok{by=}\StringTok{"mergeid"}\NormalTok{, }\AttributeTok{suffix=}\FunctionTok{c}\NormalTok{(}\StringTok{""}\NormalTok{, }\StringTok{".6"}\NormalTok{))}
+\NormalTok{married\_w3 }\OtherTok{\textless{}{-}} \FunctionTok{left\_join}\NormalTok{(married\_w3, cvr7, }\AttributeTok{by=}\StringTok{"mergeid"}\NormalTok{, }\AttributeTok{suffix=}\FunctionTok{c}\NormalTok{(}\StringTok{""}\NormalTok{, }\StringTok{".7"}\NormalTok{))}
+
+
+\CommentTok{\# Select relevant variables}
+\NormalTok{married\_w3 }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(married\_w3, }\FunctionTok{one\_of}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"mergeid"}\NormalTok{, }\StringTok{"sl\_rp002\_"}\NormalTok{, }\StringTok{"sl\_rp002d\_"}\NormalTok{,  }\StringTok{"sl\_rp016\_"}\NormalTok{, }\StringTok{"dn014\_"}\NormalTok{, }\StringTok{"dn014\_.5"}\NormalTok{, }\StringTok{"dn014\_.6"}\NormalTok{, }\StringTok{"dn014\_.7"}\NormalTok{, }\StringTok{"dn040\_"}\NormalTok{, }\StringTok{"dn040\_.5"}\NormalTok{, }\StringTok{"dn040\_.6"}\NormalTok{, }\StringTok{"dn040\_.7"}\NormalTok{, }\StringTok{"partnerinhh"}\NormalTok{, }\StringTok{"partnerinhh.5"}\NormalTok{, }\StringTok{"partnerinhh.6"}\NormalTok{, }\StringTok{"partnerinhh.7"}\NormalTok{)))}
+
+\CommentTok{\# Create index variables for cohabitation, marriage and LAT in any of the waves}
+\NormalTok{married\_w6 }\OtherTok{\textless{}{-}}\NormalTok{ married\_w3 }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(., }\AttributeTok{newlywed =}\NormalTok{ dn014\_}\SpecialCharTok{!=}\DecValTok{4} \SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(dn014\_)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(., }\AttributeTok{newlywed =}\NormalTok{ dn014\_}\FloatTok{.5}\SpecialCharTok{!=}\DecValTok{4} \SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(dn014\_}\FloatTok{.5}\NormalTok{) }\SpecialCharTok{|}\NormalTok{ newlywed}\SpecialCharTok{==}\ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(., }\AttributeTok{newlywed =}\NormalTok{ dn014\_}\FloatTok{.6}\SpecialCharTok{!=}\DecValTok{4} \SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(dn014\_}\FloatTok{.6}\NormalTok{) }\SpecialCharTok{|}\NormalTok{ newlywed}\SpecialCharTok{==}\ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(., }\AttributeTok{newlywed =}\NormalTok{ dn014\_}\FloatTok{.7}\SpecialCharTok{!=}\DecValTok{4} \SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(dn014\_}\FloatTok{.7}\NormalTok{) }\SpecialCharTok{|}\NormalTok{ newlywed}\SpecialCharTok{==}\ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(., }\AttributeTok{roomies =}\NormalTok{ partnerinhh}\SpecialCharTok{==}\DecValTok{1}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(., }\AttributeTok{roomies =}\NormalTok{ partnerinhh}\FloatTok{.5}\SpecialCharTok{==}\DecValTok{1} \SpecialCharTok{|}\NormalTok{ roomies}\SpecialCharTok{==}\ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(., }\AttributeTok{roomies =}\NormalTok{ partnerinhh}\FloatTok{.6}\SpecialCharTok{==}\DecValTok{1} \SpecialCharTok{|}\NormalTok{ roomies}\SpecialCharTok{==}\ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(., }\AttributeTok{roomies =}\NormalTok{ partnerinhh}\FloatTok{.7}\SpecialCharTok{==}\DecValTok{1} \SpecialCharTok{|}\NormalTok{ roomies}\SpecialCharTok{==}\ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(., }\AttributeTok{grasswidow =}\NormalTok{ dn040\_}\SpecialCharTok{==}\DecValTok{1}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(., }\AttributeTok{grasswidow =}\NormalTok{ dn040\_}\FloatTok{.5}\SpecialCharTok{==}\DecValTok{1} \SpecialCharTok{|}\NormalTok{ grasswidow}\SpecialCharTok{==}\ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(., }\AttributeTok{grasswidow =}\NormalTok{ dn040\_}\FloatTok{.6}\SpecialCharTok{==}\DecValTok{1} \SpecialCharTok{|}\NormalTok{ grasswidow}\SpecialCharTok{==}\ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(., }\AttributeTok{grasswidow =}\NormalTok{ dn040\_}\FloatTok{.7}\SpecialCharTok{==}\DecValTok{1} \SpecialCharTok{|}\NormalTok{ grasswidow}\SpecialCharTok{==}\ConstantTok{TRUE}\NormalTok{)}
+
+
+\CommentTok{\# Correct marriage variable with W4 to W7 data}
+\FunctionTok{table}\NormalTok{(married\_w6}\SpecialCharTok{$}\NormalTok{sl\_rp002\_, }\AttributeTok{useNA=}\StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##     0     1  <NA> 
+##  1680 26725    58
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{married\_w6}\SpecialCharTok{$}\NormalTok{sl\_rp002\_[married\_w6}\SpecialCharTok{$}\NormalTok{newlywed}\SpecialCharTok{==}\ConstantTok{TRUE}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{1}
+\FunctionTok{table}\NormalTok{(married\_w6}\SpecialCharTok{$}\NormalTok{sl\_rp002\_, }\AttributeTok{useNA=}\StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##     0     1  <NA> 
+##  1616 26793    54
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Correct cohabitation variable with W4 to W7 data}
+\FunctionTok{table}\NormalTok{(married\_w6}\SpecialCharTok{$}\NormalTok{sl\_rp002d\_, }\AttributeTok{useNA=}\StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##     0     1  <NA> 
+## 26139  2248    76
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{married\_w6}\SpecialCharTok{$}\NormalTok{sl\_rp002d\_[married\_w6}\SpecialCharTok{$}\NormalTok{roomies}\SpecialCharTok{==}\ConstantTok{TRUE}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{1}
+\FunctionTok{table}\NormalTok{(married\_w6}\SpecialCharTok{$}\NormalTok{sl\_rp002d\_, }\AttributeTok{useNA=}\StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##     0     1  <NA> 
+## 10367 18054    42
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Correct cohabitation variable with W4 to W7 data}
+\FunctionTok{table}\NormalTok{(married\_w6}\SpecialCharTok{$}\NormalTok{sl\_rp016\_, }\AttributeTok{useNA=}\StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##     0     1  <NA> 
+## 25940  2402   121
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{married\_w6}\SpecialCharTok{$}\NormalTok{sl\_rp016\_[married\_w6}\SpecialCharTok{$}\NormalTok{grasswidow}\SpecialCharTok{==}\ConstantTok{TRUE}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{1}
+\FunctionTok{table}\NormalTok{(married\_w6}\SpecialCharTok{$}\NormalTok{sl\_rp016\_, }\AttributeTok{useNA=}\StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##     0     1  <NA> 
+## 25553  2791   119
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Join Waves}
+\NormalTok{married\_w6 }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(married\_w6, }\FunctionTok{one\_of}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"mergeid"}\NormalTok{, }\StringTok{"sl\_rp002\_"}\NormalTok{, }\StringTok{"sl\_rp002d\_"}\NormalTok{, }\StringTok{"sl\_rp016\_"}\NormalTok{)))}
+\NormalTok{married\_w7 }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(rp\_w7r, }\FunctionTok{one\_of}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"mergeid"}\NormalTok{, }\StringTok{"rp002\_"}\NormalTok{, }\StringTok{"rp002d\_"}\NormalTok{, }\StringTok{"rp016\_"}\NormalTok{)))}
+\NormalTok{married }\OtherTok{\textless{}{-}} \FunctionTok{full\_join}\NormalTok{(married\_w6, married\_w7, }\AttributeTok{by=}\StringTok{"mergeid"}\NormalTok{)}
+
+
+\CommentTok{\# Construct marriage variable from W7 info}
+\NormalTok{married }\OtherTok{\textless{}{-}}\NormalTok{ married }\SpecialCharTok{\%\textgreater{}\%}  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{evermarried=}\NormalTok{rp002\_) }
+
+\CommentTok{\# Fill missings with W3 info}
+\NormalTok{married}\SpecialCharTok{$}\NormalTok{evermarried[}\FunctionTok{is.na}\NormalTok{(married}\SpecialCharTok{$}\NormalTok{rp002\_)] }\OtherTok{\textless{}{-}}\NormalTok{     married}\SpecialCharTok{$}\NormalTok{sl\_rp002\_[}\FunctionTok{is.na}\NormalTok{(married}\SpecialCharTok{$}\NormalTok{rp002\_)]}
+
+\FunctionTok{table}\NormalTok{(married}\SpecialCharTok{$}\NormalTok{evermarried, }\AttributeTok{useNA=}\StringTok{"always"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##     0     1  <NA> 
+##  5823 85667   222
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Construct cohabitation variable from W7 info}
+\NormalTok{married }\OtherTok{\textless{}{-}}\NormalTok{ married }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{cohabited=}\NormalTok{rp002d\_)}
+
+\CommentTok{\# Fill missings with W3 info}
+\NormalTok{married}\SpecialCharTok{$}\NormalTok{cohabited[}\FunctionTok{is.na}\NormalTok{(married}\SpecialCharTok{$}\NormalTok{rp002d\_)] }\OtherTok{\textless{}{-}}\NormalTok{     married}\SpecialCharTok{$}\NormalTok{sl\_rp002d\_[}\FunctionTok{is.na}\NormalTok{(married}\SpecialCharTok{$}\NormalTok{rp002d\_)]}
+
+\CommentTok{\# Use marriage info for cohabitation variable}
+\NormalTok{married }\OtherTok{\textless{}{-}}\NormalTok{ married }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{evercohab =} \FunctionTok{if\_else}\NormalTok{(evermarried}\SpecialCharTok{==}\DecValTok{0}\NormalTok{, cohabited, evermarried, cohabited))}
+
+
+\CommentTok{\# Construct LAT variable from W7 info}
+\NormalTok{married }\OtherTok{\textless{}{-}}\NormalTok{ married }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{lat=}\NormalTok{rp016\_)}
+
+\CommentTok{\# Fill missings with W3 info}
+\NormalTok{married}\SpecialCharTok{$}\NormalTok{lat[}\FunctionTok{is.na}\NormalTok{(married}\SpecialCharTok{$}\NormalTok{rp016\_)] }\OtherTok{\textless{}{-}}\NormalTok{   married}\SpecialCharTok{$}\NormalTok{sl\_rp016\_[}\FunctionTok{is.na}\NormalTok{(married}\SpecialCharTok{$}\NormalTok{rp016\_)]}
+
+\CommentTok{\# Use cohabitation info for LAT variable}
+\NormalTok{married }\OtherTok{\textless{}{-}}\NormalTok{ married }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{everlat =} \FunctionTok{if\_else}\NormalTok{(evercohab}\SpecialCharTok{==}\DecValTok{0}\NormalTok{, lat, evercohab, lat))}
+\NormalTok{married }\OtherTok{\textless{}{-}}\NormalTok{ married }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(mergeid, evermarried, evercohab, everlat)}
+
+\FunctionTok{table}\NormalTok{(married}\SpecialCharTok{$}\NormalTok{evermarried, }\AttributeTok{useNA=}\StringTok{"always"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##     0     1  <NA> 
+##  5823 85667   222
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(married}\SpecialCharTok{$}\NormalTok{evercohab, }\AttributeTok{useNA=}\StringTok{"always"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##     0     1  <NA> 
+##  3442 88089   181
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(married}\SpecialCharTok{$}\NormalTok{everlat, }\AttributeTok{useNA=}\StringTok{"always"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##     0     1  <NA> 
+##  2759 88764   189
+\end{verbatim}
+
+Next, I add data on the Big 5 personality traits. Since the Big 5 have
+not been asked to SHARELIFE respondents in Wave 7, I supplement Wave 8
+info on the Big 5 for these cases.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load SHARE modules for Big 5}
+\CommentTok{\# W7}
+\NormalTok{b5\_w7 }\OtherTok{\textless{}{-}} \FunctionTok{read\_dta}\NormalTok{(}\StringTok{"data/00\_raw/w7/sharew7\_rel8{-}0{-}0\_gv\_big5.dta"}\NormalTok{)}
+\FunctionTok{table}\NormalTok{(b5\_w7}\SpecialCharTok{$}\NormalTok{bfi10\_extra, }\AttributeTok{useNA=}\StringTok{"always"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##     1   1.5     2   2.5     3   3.5     4   4.5     5  <NA> 
+##   654  1610  4475  7357 18675 12351 12291  8132  8470  3187
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#W8}
+\NormalTok{b5\_w8 }\OtherTok{\textless{}{-}} \FunctionTok{read\_dta}\NormalTok{(}\StringTok{"data/00\_raw/w8/sharew8\_rel8{-}0{-}0\_gv\_big5.dta"}\NormalTok{)}
+\FunctionTok{table}\NormalTok{(b5\_w8}\SpecialCharTok{$}\NormalTok{bfi10\_extra, }\AttributeTok{useNA=}\StringTok{"always"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##     1   1.5     2   2.5     3   3.5     4   4.5     5  <NA> 
+##    86   197   513   945  2821  1914  1428   953   953 36923
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Select relevant variables }
+\NormalTok{big5\_w7 }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(b5\_w7, }\FunctionTok{one\_of}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"mergeid"}\NormalTok{, }\StringTok{"bfi10\_extra"}\NormalTok{, }\StringTok{"bfi10\_agree"}\NormalTok{, }\StringTok{"bfi10\_consc"}\NormalTok{, }\StringTok{"bfi10\_neuro"}\NormalTok{, }\StringTok{"bfi10\_open"}\NormalTok{)))}
+\NormalTok{big5\_w8 }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(b5\_w8, }\FunctionTok{one\_of}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"mergeid"}\NormalTok{, }\StringTok{"bfi10\_extra"}\NormalTok{, }\StringTok{"bfi10\_agree"}\NormalTok{, }\StringTok{"bfi10\_consc"}\NormalTok{, }\StringTok{"bfi10\_neuro"}\NormalTok{, }\StringTok{"bfi10\_open"}\NormalTok{)))}
+
+
+\CommentTok{\# Join waves 7 and 8}
+\NormalTok{bigfive }\OtherTok{\textless{}{-}} \FunctionTok{full\_join}\NormalTok{(big5\_w7, big5\_w8, }\AttributeTok{by=}\StringTok{"mergeid"}\NormalTok{, }\AttributeTok{suffix=}\FunctionTok{c}\NormalTok{(}\StringTok{""}\NormalTok{, }\StringTok{".8"}\NormalTok{))}
+
+\CommentTok{\# Substitute missings in wave 7 by wave 8 data}
+\NormalTok{bifi }\OtherTok{\textless{}{-}}\NormalTok{ bigfive}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{2}\SpecialCharTok{:}\DecValTok{6}\NormalTok{) \{}
+\NormalTok{  j }\OtherTok{\textless{}{-}}\NormalTok{ i}\SpecialCharTok{+}\DecValTok{5}
+\NormalTok{  bifi[}\FunctionTok{is.na}\NormalTok{(bifi[,i]), i] }\OtherTok{\textless{}{-}}\NormalTok{ bifi[}\FunctionTok{is.na}\NormalTok{(bifi[,i]), j]}
+\NormalTok{\}}
+
+\CommentTok{\#Keep only relevant variables}
+\NormalTok{bigfive }\OtherTok{\textless{}{-}}\NormalTok{ bifi[,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{6}\NormalTok{]}
+
+\FunctionTok{table}\NormalTok{(bigfive[}\DecValTok{2}\NormalTok{], }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## bfi10_extra
+##     1   1.5     2   2.5     3   3.5     4   4.5     5  <NA> 
+##   668  1634  4524  7451 18882 12491 12398  8202  8550  7776
+\end{verbatim}
+
+I then add data on life satifaction, using both the CASP-12 index and
+the life satisfaction question from the AC module. The CASP index seems
+to have a high number of missings (\textasciitilde4,500) and no data at
+all from Romania (another \textasciitilde2000.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load SHARE module gv health}
+\NormalTok{gvhealth }\OtherTok{\textless{}{-}} \FunctionTok{read\_dta}\NormalTok{(}\StringTok{"data/00\_raw/w7/sharew7\_rel8{-}0{-}0\_gv\_health.dta"}\NormalTok{)}
+
+\CommentTok{\# Keep CASP and mergeid columns}
+\NormalTok{casp }\OtherTok{\textless{}{-}}\NormalTok{ gvhealth }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(mergeid, casp)}
+
+\CommentTok{\# Load W7 AC module}
+\NormalTok{ac }\OtherTok{\textless{}{-}} \FunctionTok{read\_dta}\NormalTok{(}\StringTok{"data/00\_raw/w7/sharew7\_rel8{-}0{-}0\_ac.dta"}\NormalTok{)}
+
+\CommentTok{\# Keep life satisfaction and mergeid columns}
+\NormalTok{ac012 }\OtherTok{\textless{}{-}}\NormalTok{ ac }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(mergeid, ac012\_)}
+
+\FunctionTok{table}\NormalTok{(ac012}\SpecialCharTok{$}\NormalTok{ac012\_, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##    -2    -1     0     1     2     3     4     5     6     7     8     9    10 
+##   127  2303   484   286   550  1060  1491  7571  5636 12274 22544 11150 11506 
+##  <NA> 
+##   220
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Recode missings}
+\NormalTok{ac012}\SpecialCharTok{$}\NormalTok{ac012\_[ac012}\SpecialCharTok{$}\NormalTok{ac012\_ }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{] }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+\FunctionTok{summary}\NormalTok{(casp) }\CommentTok{\#many SHARE missings!! No data from Romania.}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    mergeid               casp      
+##  Length:77202       Min.   :12.00  
+##  Class :character   1st Qu.:32.00  
+##  Mode  :character   Median :37.00  
+##                     Mean   :36.84  
+##                     3rd Qu.:42.00  
+##                     Max.   :48.00  
+##                     NA's   :6607
+\end{verbatim}
+
+Next, I add info on age and gender of the respondents. For simplicity,
+age is calculated at the year 2017, regardless of whether the interview
+took place before or after the respondents' birthday.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Load demographics data set }
+\NormalTok{dn }\OtherTok{\textless{}{-}} \FunctionTok{read\_dta}\NormalTok{(}\StringTok{"data/00\_raw/w7/sharew7\_rel8{-}0{-}0\_dn.dta"}\NormalTok{)}
+
+\CommentTok{\# Recode binary format}
+\NormalTok{gender }\OtherTok{\textless{}{-}}\NormalTok{ dn }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(mergeid, dn042\_) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate\_at}\NormalTok{(}\FunctionTok{vars}\NormalTok{(dn042\_), }\FunctionTok{list}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\FunctionTok{case\_match}\NormalTok{(., }\DecValTok{2} \SpecialCharTok{\textasciitilde{}} \DecValTok{1}\NormalTok{, }\DecValTok{1} \SpecialCharTok{\textasciitilde{}} \DecValTok{0}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{2} \SpecialCharTok{\textasciitilde{}} \ConstantTok{NA}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{1} \SpecialCharTok{\textasciitilde{}} \ConstantTok{NA}\NormalTok{)))}
+
+\NormalTok{gender}\SpecialCharTok{$}\NormalTok{female }\OtherTok{\textless{}{-}}\NormalTok{ gender}\SpecialCharTok{$}\NormalTok{dn042\_}
+\NormalTok{gender }\OtherTok{\textless{}{-}}\NormalTok{ gender[,}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{)]}
+
+\CommentTok{\# Calculate age (in 2017) from year of birth }
+\NormalTok{age }\OtherTok{\textless{}{-}}\NormalTok{ dn }\SpecialCharTok{\%\textgreater{}\%} 
+   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{age =} \DecValTok{2017} \SpecialCharTok{{-}}\NormalTok{ dn003\_) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(mergeid, dn003\_, age)}
+  
+\FunctionTok{summary}\NormalTok{(age}\SpecialCharTok{$}\NormalTok{age)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##   22.00   61.00   68.00   68.47   76.00  105.00       7
+\end{verbatim}
+
+I use the generated variables from the ISCED dataset for education.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load ISCED generated variables data set}
+\NormalTok{isced }\OtherTok{\textless{}{-}} \FunctionTok{read\_dta}\NormalTok{(}\StringTok{"data/00\_raw/w7/sharew7\_rel8{-}0{-}0\_gv\_isced.dta"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(isced}\SpecialCharTok{$}\NormalTok{isced1997\_r)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##  -2.000   2.000   3.000   3.126   4.000  97.000     135
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Select relevant variables}
+\NormalTok{educ }\OtherTok{\textless{}{-}}\NormalTok{ isced }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(mergeid, isced1997\_r)}
+
+\CommentTok{\# Recode missings}
+\NormalTok{educ}\SpecialCharTok{$}\NormalTok{isced1997\_r[educ}\SpecialCharTok{$}\NormalTok{isced1997\_r }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{] }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+
+\FunctionTok{summary}\NormalTok{(educ}\SpecialCharTok{$}\NormalTok{isced1997\_r)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##   0.000   2.000   3.000   3.128   4.000  97.000     171
+\end{verbatim}
+
+Income is taken from the imputations dataset. I solely use the first
+calculation for now. I am not sure whether this is best practice, but I
+will ask around and it should be easy to fix in case it is not. Note
+that the ``thinc'' variable has an implausible amoount of 0 values. I
+would recommend to use thinc2, which does not have this problem.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load imputations data set}
+\NormalTok{impu }\OtherTok{\textless{}{-}} \FunctionTok{read\_dta}\NormalTok{(}\StringTok{"data/00\_raw/w7/sharew7\_rel8{-}0{-}0\_gv\_imputations.dta"}\NormalTok{)}
+
+\CommentTok{\# Use only the first of the imputation values}
+\NormalTok{income }\OtherTok{\textless{}{-}}\NormalTok{ impu[impu}\SpecialCharTok{$}\NormalTok{implicat}\SpecialCharTok{==}\DecValTok{1}\NormalTok{,] }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(mergeid, thinc2, thinc)}
+\end{Highlighting}
+\end{Shaded}
+
+I then join all datasets, keeping only those cases that match. No IDs
+are lost in the process.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data1 }\OtherTok{\textless{}{-}} \FunctionTok{full\_join}\NormalTok{(gender, age, }\AttributeTok{by =}\StringTok{"mergeid"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(data1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    mergeid              female          dn003_          age        
+##  Length:77202       Min.   :0.000   Min.   :1912   Min.   : 22.00  
+##  Class :character   1st Qu.:0.000   1st Qu.:1941   1st Qu.: 61.00  
+##  Mode  :character   Median :1.000   Median :1949   Median : 68.00  
+##                     Mean   :0.571   Mean   :1949   Mean   : 68.47  
+##                     3rd Qu.:1.000   3rd Qu.:1956   3rd Qu.: 76.00  
+##                     Max.   :1.000   Max.   :1995   Max.   :105.00  
+##                                     NA's   :7      NA's   :7
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data2 }\OtherTok{\textless{}{-}} \FunctionTok{inner\_join}\NormalTok{(data1, married, }\AttributeTok{by=}\StringTok{"mergeid"}\NormalTok{)}
+\NormalTok{data3 }\OtherTok{\textless{}{-}} \FunctionTok{inner\_join}\NormalTok{(data2, bigfive, }\AttributeTok{by=}\StringTok{"mergeid"}\NormalTok{)}
+\NormalTok{data4 }\OtherTok{\textless{}{-}} \FunctionTok{inner\_join}\NormalTok{(data3, ac012, }\AttributeTok{by=}\StringTok{"mergeid"}\NormalTok{)}
+\NormalTok{data5 }\OtherTok{\textless{}{-}} \FunctionTok{inner\_join}\NormalTok{(data4, casp, }\AttributeTok{by=}\StringTok{"mergeid"}\NormalTok{)}
+\NormalTok{data6 }\OtherTok{\textless{}{-}} \FunctionTok{inner\_join}\NormalTok{(data5, educ, }\AttributeTok{by=}\StringTok{"mergeid"}\NormalTok{)}
+\NormalTok{data\_prepped }\OtherTok{\textless{}{-}} \FunctionTok{inner\_join}\NormalTok{(data6, income, }\AttributeTok{by=}\StringTok{"mergeid"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(data\_prepped)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    mergeid              female          dn003_          age        
+##  Length:77202       Min.   :0.000   Min.   :1912   Min.   : 22.00  
+##  Class :character   1st Qu.:0.000   1st Qu.:1941   1st Qu.: 61.00  
+##  Mode  :character   Median :1.000   Median :1949   Median : 68.00  
+##                     Mean   :0.571   Mean   :1949   Mean   : 68.47  
+##                     3rd Qu.:1.000   3rd Qu.:1956   3rd Qu.: 76.00  
+##                     Max.   :1.000   Max.   :1995   Max.   :105.00  
+##                                     NA's   :7      NA's   :7       
+##   evermarried       evercohab         everlat        bfi10_extra   
+##  Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :1.000  
+##  1st Qu.:1.0000   1st Qu.:1.0000   1st Qu.:1.0000   1st Qu.:3.000  
+##  Median :1.0000   Median :1.0000   Median :1.0000   Median :3.500  
+##  Mean   :0.9358   Mean   :0.9619   Mean   :0.9693   Mean   :3.482  
+##  3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:4.000  
+##  Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :5.000  
+##  NA's   :179      NA's   :156      NA's   :163      NA's   :3095   
+##   bfi10_agree     bfi10_consc     bfi10_neuro      bfi10_open   
+##  Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:3.000   1st Qu.:3.500   1st Qu.:2.000   1st Qu.:2.500  
+##  Median :3.500   Median :4.000   Median :2.500   Median :3.000  
+##  Mean   :3.657   Mean   :4.121   Mean   :2.668   Mean   :3.292  
+##  3rd Qu.:4.500   3rd Qu.:5.000   3rd Qu.:3.500   3rd Qu.:4.000  
+##  Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.000  
+##  NA's   :3002    NA's   :3008    NA's   :2950    NA's   :3196   
+##      ac012_            casp        isced1997_r         thinc2      
+##  Min.   : 0.000   Min.   :12.00   Min.   : 0.000   Min.   :     0  
+##  1st Qu.: 7.000   1st Qu.:32.00   1st Qu.: 2.000   1st Qu.:  8457  
+##  Median : 8.000   Median :37.00   Median : 3.000   Median : 15600  
+##  Mean   : 7.564   Mean   :36.84   Mean   : 3.128   Mean   : 23275  
+##  3rd Qu.: 9.000   3rd Qu.:42.00   3rd Qu.: 4.000   3rd Qu.: 30000  
+##  Max.   :10.000   Max.   :48.00   Max.   :97.000   Max.   :647657  
+##  NA's   :2650     NA's   :6607    NA's   :171                      
+##      thinc        
+##  Min.   :      0  
+##  1st Qu.:      0  
+##  Median :      0  
+##  Mean   :   5533  
+##  3rd Qu.:      0  
+##  Max.   :7399056  
+## 
+\end{verbatim}
+
+\end{document}
