@@ -224,7 +224,7 @@ gender <- gender[,c(1,3)]
 # Calculate age (in 2017) from year of birth 
 age <- dn %>% 
    mutate(age = 2017 - dn003_) %>%
-  select(mergeid, dn003_, age)
+  select(mergeid, dn003_, age, country)
   
 summary(age$age)
 ```

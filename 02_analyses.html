@@ -1,0 +1,3184 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Michael Krämer">
+
+<title>Singlehood SHARE: Analyses Overview</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="02_analyses_files/libs/clipboard/clipboard.min.js"></script>
+<script src="02_analyses_files/libs/quarto-html/quarto.js"></script>
+<script src="02_analyses_files/libs/quarto-html/popper.min.js"></script>
+<script src="02_analyses_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="02_analyses_files/libs/quarto-html/anchor.min.js"></script>
+<link href="02_analyses_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="02_analyses_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="02_analyses_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="02_analyses_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="02_analyses_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#load-packages" id="toc-load-packages" class="nav-link active" data-scroll-target="#load-packages"><span class="header-section-number">1</span> Load packages</a></li>
+  <li><a href="#load-cleaned-data" id="toc-load-cleaned-data" class="nav-link" data-scroll-target="#load-cleaned-data"><span class="header-section-number">2</span> Load cleaned data</a></li>
+  <li><a href="#more-data-cleaning" id="toc-more-data-cleaning" class="nav-link" data-scroll-target="#more-data-cleaning"><span class="header-section-number">3</span> More data cleaning</a></li>
+  <li><a href="#merge-country-level-data" id="toc-merge-country-level-data" class="nav-link" data-scroll-target="#merge-country-level-data"><span class="header-section-number">4</span> Merge country-level data</a></li>
+  <li><a href="#confirmatory-results" id="toc-confirmatory-results" class="nav-link" data-scroll-target="#confirmatory-results"><span class="header-section-number">5</span> Confirmatory results</a>
+  <ul>
+  <li><a href="#sca" id="toc-sca" class="nav-link" data-scroll-target="#sca"><span class="header-section-number">5.1</span> Specification curve analyses (SCA)</a></li>
+  <li><a href="#results-summary" id="toc-results-summary" class="nav-link" data-scroll-target="#results-summary"><span class="header-section-number">5.2</span> Results summary</a>
+  <ul>
+  <li><a href="#hyp1" id="toc-hyp1" class="nav-link" data-scroll-target="#hyp1"><span class="header-section-number">5.2.1</span> Hypothesis 1: Extraversion</a></li>
+  </ul></li>
+  <li><a href="#hyp2" id="toc-hyp2" class="nav-link" data-scroll-target="#hyp2"><span class="header-section-number">5.3</span> Hypothesis 2: Neuroticism</a></li>
+  <li><a href="#hyp3" id="toc-hyp3" class="nav-link" data-scroll-target="#hyp3"><span class="header-section-number">5.4</span> Hypothesis 3: Conscientiousness</a></li>
+  <li><a href="#hyp4" id="toc-hyp4" class="nav-link" data-scroll-target="#hyp4"><span class="header-section-number">5.5</span> Hypothesis 4: Well-being / Life Satisfaction</a></li>
+  </ul></li>
+  <li><a href="#exploratory-results" id="toc-exploratory-results" class="nav-link" data-scroll-target="#exploratory-results"><span class="header-section-number">6</span> Exploratory results</a>
+  <ul>
+  <li><a href="#agreeableness" id="toc-agreeableness" class="nav-link" data-scroll-target="#agreeableness"><span class="header-section-number">6.1</span> Agreeableness</a></li>
+  <li><a href="#openness-to-experiences" id="toc-openness-to-experiences" class="nav-link" data-scroll-target="#openness-to-experiences"><span class="header-section-number">6.2</span> Openness to experiences</a></li>
+  <li><a href="#moderator-analyses-age-income" id="toc-moderator-analyses-age-income" class="nav-link" data-scroll-target="#moderator-analyses-age-income"><span class="header-section-number">6.3</span> Moderator analyses: age, income</a></li>
+  <li><a href="#moderator-analyses-country-level-variables" id="toc-moderator-analyses-country-level-variables" class="nav-link" data-scroll-target="#moderator-analyses-country-level-variables"><span class="header-section-number">6.4</span> Moderator analyses: country-level variables</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Singlehood SHARE: Analyses Overview</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Michael Krämer </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<!--
+You can find the preregistration [here](https://osf.io/xbua4).
+-->
+<section id="load-packages" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="load-packages"><span class="header-section-number">1</span> Load packages</h2>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(renv)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(labelled)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quest) <span class="co"># for POMP scores</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GPArotation)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(specr)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(furrr)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="load-cleaned-data" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="load-cleaned-data"><span class="header-section-number">2</span> Load cleaned data</h2>
+<div class="cell" data-hash="02_analyses_cache/html/unnamed-chunk-2_0c874e084b78305f95468f098a487329">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>base<span class="sc">::</span><span class="fu">load</span>(<span class="st">"data/01_cleaned/df_singles.rda"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df_singles <span class="ot">&lt;-</span> data_prepped</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="more-data-cleaning" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="more-data-cleaning"><span class="header-section-number">3</span> More data cleaning</h2>
+<div class="cell" data-hash="02_analyses_cache/html/unnamed-chunk-3_a295fce64a6edea66c4697eafe6ac3b5">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df_singles <span class="ot">&lt;-</span> df_singles <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(mergeid) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">pid =</span> <span class="fu">cur_group_id</span>()) <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age_c =</span> age <span class="sc">-</span> <span class="fu">mean</span>(age, <span class="at">na.rm=</span>T))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># rename for easier to interpret var names</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>df_singles <span class="ot">&lt;-</span> df_singles <span class="sc">%&gt;%</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">extraversion =</span> bfi10_extra, <span class="at">agreeableness =</span> bfi10_agree, <span class="at">conscientiousness =</span> bfi10_consc, </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">neuroticism =</span> bfi10_neuro, <span class="at">openness =</span> bfi10_open,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">ever_partnered =</span> everlat, <span class="at">ever_cohabitating =</span> evercohab, <span class="at">ever_married =</span> evermarried, </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">life_satisfaction =</span> ac012_, <span class="at">quality_of_life =</span> casp, <span class="at">income =</span> thinc2)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># code education</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>df_singles <span class="ot">&lt;-</span> df_singles <span class="sc">%&gt;%</span> </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">education =</span> <span class="fu">case_when</span>(</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    isced1997_r <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"ISCED_1"</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    isced1997_r <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"ISCED_2"</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    isced1997_r <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"ISCED_3"</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    isced1997_r <span class="sc">==</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">"ISCED_4"</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    isced1997_r <span class="sc">==</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"ISCED_5"</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    isced1997_r <span class="sc">==</span> <span class="dv">6</span> <span class="sc">~</span> <span class="st">"ISCED_6"</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    isced1997_r <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">95</span>, <span class="dv">96</span>) <span class="sc">~</span> <span class="st">"other/none"</span>,</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">.default =</span> <span class="cn">NA_character_</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span> <span class="co"># also dummy coding (1 = reference category)</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">isced_2 =</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(education), <span class="fu">ifelse</span>(education<span class="sc">==</span><span class="st">"ISCED_2"</span>, <span class="dv">1</span>, <span class="dv">0</span>), <span class="cn">NA</span>),</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>         <span class="at">isced_3 =</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(education), <span class="fu">ifelse</span>(education<span class="sc">==</span><span class="st">"ISCED_3"</span>, <span class="dv">1</span>, <span class="dv">0</span>), <span class="cn">NA</span>),</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>         <span class="at">isced_4 =</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(education), <span class="fu">ifelse</span>(education<span class="sc">==</span><span class="st">"ISCED_4"</span>, <span class="dv">1</span>, <span class="dv">0</span>), <span class="cn">NA</span>),</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>         <span class="at">isced_5 =</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(education), <span class="fu">ifelse</span>(education<span class="sc">==</span><span class="st">"ISCED_5"</span>, <span class="dv">1</span>, <span class="dv">0</span>), <span class="cn">NA</span>),</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>         <span class="at">isced_6 =</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(education), <span class="fu">ifelse</span>(education<span class="sc">==</span><span class="st">"ISCED_6"</span>, <span class="dv">1</span>, <span class="dv">0</span>), <span class="cn">NA</span>),</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>         <span class="at">isced_other =</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(education), <span class="fu">ifelse</span>(education<span class="sc">==</span><span class="st">"other/none"</span>, <span class="dv">1</span>, <span class="dv">0</span>), <span class="cn">NA</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">income_z =</span> <span class="fu">scale</span>(income)) <span class="co"># z-standardize income</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="co"># POMP scores for well-being (because scale is very different across the two!)</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>df_singles <span class="ot">&lt;-</span> df_singles <span class="sc">%&gt;%</span> </span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">life_satisfaction_p =</span> quest<span class="sc">::</span><span class="fu">pomp</span>(life_satisfaction, <span class="at">mini=</span><span class="dv">0</span>, <span class="at">maxi=</span><span class="dv">10</span>, <span class="at">relative =</span> <span class="cn">FALSE</span>, <span class="at">unit =</span> <span class="dv">1</span>),</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>         <span class="at">quality_of_life_p =</span> quest<span class="sc">::</span><span class="fu">pomp</span>(quality_of_life, <span class="at">mini=</span><span class="dv">12</span>, <span class="at">maxi=</span><span class="dv">48</span>, <span class="at">relative =</span> <span class="cn">FALSE</span>, <span class="at">unit =</span> <span class="dv">1</span>))</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="co"># switch 0/1 dummy coding for predictors</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>df_singles <span class="ot">&lt;-</span> df_singles <span class="sc">%&gt;%</span> </span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">never_partnered =</span> <span class="fu">if_else</span>(ever_partnered<span class="sc">==</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="fu">ifelse</span>(ever_partnered<span class="sc">==</span><span class="dv">0</span>, <span class="dv">1</span>, <span class="cn">NA</span>)),</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>         <span class="at">never_cohabitating =</span> <span class="fu">if_else</span>(ever_cohabitating<span class="sc">==</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="fu">ifelse</span>(ever_cohabitating<span class="sc">==</span><span class="dv">0</span>, <span class="dv">1</span>, <span class="cn">NA</span>)),</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>         <span class="at">never_married =</span> <span class="fu">if_else</span>(ever_married<span class="sc">==</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="fu">ifelse</span>(ever_married<span class="sc">==</span><span class="dv">0</span>, <span class="dv">1</span>, <span class="cn">NA</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="merge-country-level-data" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="merge-country-level-data"><span class="header-section-number">4</span> Merge country-level data</h2>
+<div class="cell" data-hash="02_analyses_cache/html/unnamed-chunk-4_3c3ed1e80b9bcbfd5128154205360e6c">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_singles <span class="ot">&lt;-</span> df_singles <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(mergeid) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">pid =</span> <span class="fu">cur_group_id</span>()) <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country_str =</span> <span class="fu">as.character</span>(haven<span class="sc">::</span><span class="fu">as_factor</span>(country)))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>df_singles<span class="sc">$</span>country_str <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">" "</span>, <span class="st">"_"</span>, df_singles<span class="sc">$</span>country_str) <span class="co"># for Czech Republic</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>df_country_level <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">"country_data.csv"</span>) <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">country_str =</span> Country)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>df_singles <span class="ot">&lt;-</span> df_singles <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(df_country_level)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>df_singles <span class="ot">&lt;-</span> df_singles <span class="sc">%&gt;%</span> </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">religiosity =</span> Religiosity, <span class="at">gender_ratio =</span> <span class="st">`</span><span class="at">Gender_ratio(maleper100female)</span><span class="st">`</span>, </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">singles_proportion =</span> Total_Singlehood_Ratio) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">religiosity_z =</span> <span class="fu">scale</span>(religiosity), <span class="co"># z-standardize </span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">gender_ratio_z =</span> <span class="fu">scale</span>(gender_ratio),</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">singles_proportion_z =</span> <span class="fu">scale</span>(singles_proportion))</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># labelled variable types sometimes cause problems donwstream -&gt; convert to numeric</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>df_singles <span class="ot">&lt;-</span> df_singles <span class="sc">%&gt;%</span> <span class="fu">mutate_at</span>(<span class="fu">c</span>(<span class="st">"extraversion"</span>, <span class="st">"agreeableness"</span>, <span class="st">"conscientiousness"</span>, <span class="st">"neuroticism"</span>, <span class="st">"openness"</span>,</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">"life_satisfaction_p"</span>, <span class="st">"quality_of_life_p"</span>), as.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="confirmatory-results" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="confirmatory-results"><span class="header-section-number">5</span> Confirmatory results</h2>
+<section id="sca" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="sca"><span class="header-section-number">5.1</span> Specification curve analyses (SCA)</h3>
+<p>Run SCA:</p>
+<div class="cell" data-hash="02_analyses_cache/html/unnamed-chunk-5_b58f4f34b7ec1f90959b74dde96c34c0">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>specifications_b5 <span class="ot">&lt;-</span> <span class="fu">crossing</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">vec_outcome =</span> <span class="fu">c</span>(<span class="st">"extraversion"</span>, <span class="st">"agreeableness"</span>, <span class="st">"conscientiousness"</span>, <span class="st">"neuroticism"</span>, <span class="st">"openness"</span>), </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">vec_predictor =</span> <span class="fu">c</span>(<span class="st">"never_partnered"</span>, <span class="st">"never_cohabitating"</span>, <span class="st">"never_married"</span>),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">vec_controls =</span> <span class="fu">c</span>(<span class="st">"none"</span>, <span class="st">"age"</span>, <span class="st">"gender"</span>, <span class="st">"income"</span>, <span class="st">"education"</span>, <span class="st">"religiosity"</span>, <span class="st">"gender_ratio"</span>, <span class="st">"singles_proportion"</span>, <span class="st">"all"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">specnr =</span> <span class="fu">row_number</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">spec_name =</span> <span class="fu">paste0</span>(<span class="st">"outcome="</span>, vec_outcome, <span class="st">", predictor="</span>, vec_predictor, </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                            <span class="st">", controls="</span>, vec_controls))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># custom function</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># random intercept model:</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>lmer_ri_1 <span class="ot">&lt;-</span> <span class="cf">function</span>(formula, data,...) {</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">require</span>(lme4)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">require</span>(broom.mixed)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  formula <span class="ot">&lt;-</span> <span class="fu">paste</span>(formula, <span class="st">"+ (1|country_str)"</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  lme4<span class="sc">::</span><span class="fu">lmer</span>(formula, data)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>lmer_ri_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(formula, data,...) {</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">require</span>(lmerTest)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">require</span>(broom.mixed)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  formula <span class="ot">&lt;-</span> <span class="fu">paste</span>(formula, <span class="st">"+ (1|country_str)"</span>)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  lmerTest<span class="sc">::</span><span class="fu">lmer</span>(formula, data)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Including random slopes (only country as grouping variable)</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>lmer_rs_1 <span class="ot">&lt;-</span> <span class="cf">function</span>(formula, data,...) {</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">require</span>(lme4)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">require</span>(broom.mixed)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  slopevars <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">strsplit</span>(formula, <span class="st">" ~ "</span>))[<span class="dv">2</span>]</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  formula <span class="ot">&lt;-</span> <span class="fu">paste0</span>(formula, <span class="st">"+ (1 + "</span>, slopevars, <span class="st">"|country_str)"</span> )</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  lme4<span class="sc">::</span><span class="fu">lmer</span>(formula, data, <span class="at">control=</span><span class="fu">lmerControl</span>(<span class="at">optimizer=</span><span class="st">"bobyqa"</span>,</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>                                                <span class="at">optCtrl=</span><span class="fu">list</span>(<span class="at">maxfun=</span><span class="fl">2e5</span>)))</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>lmer_rs_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(formula, data,...) {</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">require</span>(lmerTest)</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">require</span>(broom.mixed)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>  slopevars <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">strsplit</span>(formula, <span class="st">" ~ "</span>))[<span class="dv">2</span>]</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>  formula <span class="ot">&lt;-</span> <span class="fu">paste0</span>(formula, <span class="st">"+ (1 + "</span>, slopevars, <span class="st">"|country_str)"</span> )</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  lmerTest<span class="sc">::</span><span class="fu">lmer</span>(formula, data, <span class="at">control=</span><span class="fu">lmerControl</span>(<span class="at">optimizer=</span><span class="st">"bobyqa"</span>,</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>                                                <span class="at">optCtrl=</span><span class="fu">list</span>(<span class="at">maxfun=</span><span class="fl">2e5</span>)))</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a><span class="co"># personality</span></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup Specifications</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>specs_b5 <span class="ot">&lt;-</span> specr<span class="sc">::</span><span class="fu">setup</span>(<span class="at">data =</span> df_singles, </span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>                  <span class="at">y =</span> <span class="fu">c</span>(<span class="st">"extraversion"</span>, <span class="st">"agreeableness"</span>, <span class="st">"conscientiousness"</span>, <span class="st">"neuroticism"</span>, <span class="st">"openness"</span>), </span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>                  <span class="at">x =</span> <span class="fu">c</span>(<span class="st">"never_partnered"</span>, <span class="st">"never_cohabitating"</span>, <span class="st">"never_married"</span>), </span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>                  <span class="at">controls =</span> <span class="fu">c</span>(<span class="st">"age_c"</span>, <span class="st">"female"</span>, <span class="st">"income_z"</span>, <span class="st">"education"</span>, </span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"religiosity_z"</span>, <span class="st">"gender_ratio_z"</span>, <span class="st">"singles_proportion_z"</span>),</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>                  <span class="at">simplify =</span> T, <span class="co"># not all combinations of covars</span></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>                  <span class="at">model =</span> <span class="fu">c</span>(<span class="st">"lmer_ri_1"</span>))</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a><span class="co"># identical, but with p-values pls</span></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>specs_b5_p <span class="ot">&lt;-</span> specr<span class="sc">::</span><span class="fu">setup</span>(<span class="at">data =</span> df_singles, </span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>                  <span class="at">y =</span> <span class="fu">c</span>(<span class="st">"extraversion"</span>, <span class="st">"agreeableness"</span>, <span class="st">"conscientiousness"</span>, <span class="st">"neuroticism"</span>, <span class="st">"openness"</span>), </span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>                  <span class="at">x =</span> <span class="fu">c</span>(<span class="st">"never_partnered"</span>, <span class="st">"never_cohabitating"</span>, <span class="st">"never_married"</span>), </span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>                  <span class="at">controls =</span> <span class="fu">c</span>(<span class="st">"age_c"</span>, <span class="st">"female"</span>, <span class="st">"income_z"</span>, <span class="st">"education"</span>, </span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"religiosity_z"</span>, <span class="st">"gender_ratio_z"</span>, <span class="st">"singles_proportion_z"</span>),</span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>                  <span class="at">simplify =</span> T, <span class="co"># not all combinations of covars</span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>                  <span class="at">model =</span> <span class="fu">c</span>(<span class="st">"lmer_ri_2"</span>))</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Run Specification Curve Analysis</span></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a><span class="co">#opts &lt;- furrr_options( # for parallelization (using multiple cores)</span></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a><span class="co">#  globals = list(lmer_ri_1 = lmer_ri_1)</span></span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a><span class="co">#)</span></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a><span class="co">#plan(strategy = multisession, workers = 6)</span></span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>sca_b5 <span class="ot">&lt;-</span> <span class="fu">specr</span>(specs_b5) </span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>                <span class="co">#.options = opts,   # Pass opts to specr</span></span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>                <span class="co">#.progress = TRUE)</span></span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>sca_b5_p <span class="ot">&lt;-</span> <span class="fu">specr</span>(specs_b5_p) <span class="co"># run again (for p-values)</span></span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a><span class="co"># well-being</span></span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup Specifications</span></span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>specs_wb <span class="ot">&lt;-</span> specr<span class="sc">::</span><span class="fu">setup</span>(<span class="at">data =</span> df_singles, </span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>                         <span class="at">y =</span> <span class="fu">c</span>(<span class="st">"life_satisfaction_p"</span>, <span class="st">"quality_of_life_p"</span>), </span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>                         <span class="at">x =</span> <span class="fu">c</span>(<span class="st">"never_partnered"</span>, <span class="st">"never_cohabitating"</span>, <span class="st">"never_married"</span>), </span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>                         <span class="at">controls =</span> <span class="fu">c</span>(<span class="st">"age_c"</span>, <span class="st">"female"</span>, <span class="st">"income_z"</span>, <span class="st">"education"</span>, </span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"religiosity_z"</span>, <span class="st">"gender_ratio_z"</span>, <span class="st">"singles_proportion_z"</span>),</span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>                         <span class="at">simplify =</span> T, <span class="co"># not all combinations of covars</span></span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>                         <span class="at">model =</span> <span class="fu">c</span>(<span class="st">"lmer_ri_1"</span>))</span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a><span class="co"># identical, but with p-values pls</span></span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>specs_wb_p <span class="ot">&lt;-</span> specr<span class="sc">::</span><span class="fu">setup</span>(<span class="at">data =</span> df_singles, </span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>                         <span class="at">y =</span> <span class="fu">c</span>(<span class="st">"life_satisfaction_p"</span>, <span class="st">"quality_of_life_p"</span>), </span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>                         <span class="at">x =</span> <span class="fu">c</span>(<span class="st">"never_partnered"</span>, <span class="st">"never_cohabitating"</span>, <span class="st">"never_married"</span>), </span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>                         <span class="at">controls =</span> <span class="fu">c</span>(<span class="st">"age_c"</span>, <span class="st">"female"</span>, <span class="st">"income_z"</span>, <span class="st">"education"</span>, </span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"religiosity_z"</span>, <span class="st">"gender_ratio_z"</span>, <span class="st">"singles_proportion_z"</span>),</span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>                         <span class="at">simplify =</span> T, <span class="co"># not all combinations of covars</span></span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>                         <span class="at">model =</span> <span class="fu">c</span>(<span class="st">"lmer_ri_2"</span>))</span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a><span class="co"># Run Specification Curve Analysis</span></span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>sca_wb <span class="ot">&lt;-</span> <span class="fu">specr</span>(specs_wb) </span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a>                <span class="co">#.options = opts,</span></span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a>                <span class="co">#.progress = TRUE)</span></span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a>sca_wb_p <span class="ot">&lt;-</span> <span class="fu">specr</span>(specs_wb_p) <span class="co"># run again (for p-values)</span></span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a><span class="co">#plan(sequential) # stop parallelization</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>SCA for personality traits:</p>
+<div class="cell" data-hash="02_analyses_cache/html/unnamed-chunk-6_8149840a18b1b99a05fd3a41edfdad41">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Specification Curve</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sca_b5, </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">choices =</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"controls"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="02_analyses_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="912"></p>
+</div>
+</div>
+<p>Summary of entire SCA:</p>
+<div class="cell" data-hash="02_analyses_cache/html/unnamed-chunk-7_238ce7c2a16f7ac94e67e02380751bb8">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sca_b5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Results of the specification curve analysis
+-------------------
+Technical details:
+
+  Class:                          specr.object -- version: 1.0.0 
+  Cores used:                     1 
+  Duration of fitting process:    41.58 sec elapsed 
+  Number of specifications:       135 
+
+Descriptive summary of the specification curve:
+
+ median mad   min  max   q25   q75
+  -0.07 0.1 -0.25 0.03 -0.15 -0.03
+
+Descriptive summary of sample sizes: 
+
+ median   min   max
+  74066 73687 74211
+
+Head of the specification results (first 6 rows): 
+
+# A tibble: 6 × 20
+  x         y     model controls subsets formula effect group estimate std.error
+  &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;glue&gt;  &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 never_pa… extr… lmer… no cova… all     extrav… fixed  &lt;NA&gt;     -0.25      0.02
+2 never_pa… extr… lmer… age_c    all     extrav… fixed  &lt;NA&gt;     -0.25      0.02
+3 never_pa… extr… lmer… female   all     extrav… fixed  &lt;NA&gt;     -0.24      0.02
+4 never_pa… extr… lmer… income_z all     extrav… fixed  &lt;NA&gt;     -0.24      0.02
+5 never_pa… extr… lmer… educati… all     extrav… fixed  &lt;NA&gt;     -0.24      0.02
+6 never_pa… extr… lmer… religio… all     extrav… fixed  &lt;NA&gt;     -0.25      0.02
+# ℹ 10 more variables: statistic &lt;dbl&gt;, conf.low &lt;dbl&gt;, conf.high &lt;dbl&gt;,
+#   fit_nobs &lt;dbl&gt;, fit_sigma &lt;dbl&gt;, fit_logLik &lt;dbl&gt;, fit_AIC &lt;dbl&gt;,
+#   fit_BIC &lt;dbl&gt;, fit_REMLcrit &lt;dbl&gt;, fit_df.residual &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>SCA for well-being:</p>
+<div class="cell" data-hash="02_analyses_cache/html/unnamed-chunk-8_777ada4c4dba20ca0a912c7709f321be">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Specification Curve</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sca_wb, </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">choices =</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"controls"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="02_analyses_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="912"></p>
+</div>
+</div>
+<p>Summary of entire SCA:</p>
+<div class="cell" data-hash="02_analyses_cache/html/unnamed-chunk-9_2207bd80f8783bd50bf3a43477302541">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sca_wb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Results of the specification curve analysis
+-------------------
+Technical details:
+
+  Class:                          specr.object -- version: 1.0.0 
+  Cores used:                     1 
+  Duration of fitting process:    16.466 sec elapsed 
+  Number of specifications:       54 
+
+Descriptive summary of the specification curve:
+
+ median mad   min   max   q25  q75
+  -3.83 1.1 -5.02 -1.76 -4.67 -3.1
+
+Descriptive summary of sample sizes: 
+
+ median   min   max
+  72395 70290 74516
+
+Head of the specification results (first 6 rows): 
+
+# A tibble: 6 × 20
+  x         y     model controls subsets formula effect group estimate std.error
+  &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;glue&gt;  &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 never_pa… life… lmer… no cova… all     life_s… fixed  &lt;NA&gt;     -4.9       0.39
+2 never_pa… life… lmer… age_c    all     life_s… fixed  &lt;NA&gt;     -5         0.38
+3 never_pa… life… lmer… female   all     life_s… fixed  &lt;NA&gt;     -5.02      0.39
+4 never_pa… life… lmer… income_z all     life_s… fixed  &lt;NA&gt;     -4.46      0.38
+5 never_pa… life… lmer… educati… all     life_s… fixed  &lt;NA&gt;     -4.69      0.38
+6 never_pa… life… lmer… religio… all     life_s… fixed  &lt;NA&gt;     -4.9       0.39
+# ℹ 10 more variables: statistic &lt;dbl&gt;, conf.low &lt;dbl&gt;, conf.high &lt;dbl&gt;,
+#   fit_nobs &lt;dbl&gt;, fit_sigma &lt;dbl&gt;, fit_logLik &lt;dbl&gt;, fit_AIC &lt;dbl&gt;,
+#   fit_BIC &lt;dbl&gt;, fit_REMLcrit &lt;dbl&gt;, fit_df.residual &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>Important for interpretation: Unlike for personality, I used POMP (percentage of maximum possible) scores here to make the results comparable across the two well-being operationalizations.</p>
+</section>
+<section id="results-summary" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="results-summary"><span class="header-section-number">5.2</span> Results summary</h3>
+<section id="hyp1" class="level4" data-number="5.2.1">
+<h4 data-number="5.2.1" class="anchored" data-anchor-id="hyp1"><span class="header-section-number">5.2.1</span> Hypothesis 1: Extraversion</h4>
+<p><em>Lifelong singles self-report lower levels of extraversion as compared to partnered individuals.</em></p>
+<p>All model results for extraversion:</p>
+<div class="cell" data-hash="02_analyses_cache/html/unnamed-chunk-10_029f130cdf898a36c6c53fc3aa51e8db">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(sca_b5_p<span class="sc">$</span>data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(y<span class="sc">==</span><span class="st">"extraversion"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(x, controls, estimate, conf.low, conf.high, std.error, statistic, p.value, fit_nobs), <span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 20%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 7%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">x</th>
+<th style="text-align: left;">controls</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">conf.low</th>
+<th style="text-align: right;">conf.high</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+<th style="text-align: right;">fit_nobs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">-0.246</td>
+<td style="text-align: right;">-0.284</td>
+<td style="text-align: right;">-0.208</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">-12.744</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74063</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">-0.249</td>
+<td style="text-align: right;">-0.286</td>
+<td style="text-align: right;">-0.211</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">-12.902</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74056</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">-0.241</td>
+<td style="text-align: right;">-0.279</td>
+<td style="text-align: right;">-0.204</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">-12.520</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74063</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">-0.243</td>
+<td style="text-align: right;">-0.281</td>
+<td style="text-align: right;">-0.205</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">-12.586</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74063</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">-0.242</td>
+<td style="text-align: right;">-0.280</td>
+<td style="text-align: right;">-0.205</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">-12.559</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">73799</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">-0.246</td>
+<td style="text-align: right;">-0.284</td>
+<td style="text-align: right;">-0.208</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">-12.741</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74063</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">-0.246</td>
+<td style="text-align: right;">-0.284</td>
+<td style="text-align: right;">-0.208</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">-12.752</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74063</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">-0.246</td>
+<td style="text-align: right;">-0.284</td>
+<td style="text-align: right;">-0.208</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">-12.747</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74063</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">-0.240</td>
+<td style="text-align: right;">-0.278</td>
+<td style="text-align: right;">-0.202</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">-12.424</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">73792</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">-0.240</td>
+<td style="text-align: right;">-0.274</td>
+<td style="text-align: right;">-0.207</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-13.902</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74066</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">-0.245</td>
+<td style="text-align: right;">-0.278</td>
+<td style="text-align: right;">-0.211</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-14.146</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74059</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">-0.237</td>
+<td style="text-align: right;">-0.271</td>
+<td style="text-align: right;">-0.203</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-13.691</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74066</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">-0.238</td>
+<td style="text-align: right;">-0.272</td>
+<td style="text-align: right;">-0.204</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-13.717</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74066</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">-0.239</td>
+<td style="text-align: right;">-0.273</td>
+<td style="text-align: right;">-0.205</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-13.807</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">73802</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">-0.240</td>
+<td style="text-align: right;">-0.274</td>
+<td style="text-align: right;">-0.207</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-13.900</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74066</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">-0.241</td>
+<td style="text-align: right;">-0.275</td>
+<td style="text-align: right;">-0.207</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-13.910</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74066</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">-0.241</td>
+<td style="text-align: right;">-0.274</td>
+<td style="text-align: right;">-0.207</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-13.906</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74066</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">-0.238</td>
+<td style="text-align: right;">-0.272</td>
+<td style="text-align: right;">-0.204</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-13.718</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">73795</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">-0.182</td>
+<td style="text-align: right;">-0.209</td>
+<td style="text-align: right;">-0.156</td>
+<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">-13.583</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74056</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">-0.197</td>
+<td style="text-align: right;">-0.223</td>
+<td style="text-align: right;">-0.171</td>
+<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">-14.633</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74049</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">-0.179</td>
+<td style="text-align: right;">-0.206</td>
+<td style="text-align: right;">-0.153</td>
+<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">-13.350</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74056</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">-0.180</td>
+<td style="text-align: right;">-0.207</td>
+<td style="text-align: right;">-0.154</td>
+<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">-13.412</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74056</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">-0.183</td>
+<td style="text-align: right;">-0.210</td>
+<td style="text-align: right;">-0.157</td>
+<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">-13.641</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">73792</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">-0.182</td>
+<td style="text-align: right;">-0.209</td>
+<td style="text-align: right;">-0.156</td>
+<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">-13.584</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74056</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">-0.183</td>
+<td style="text-align: right;">-0.209</td>
+<td style="text-align: right;">-0.156</td>
+<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">-13.589</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74056</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">-0.183</td>
+<td style="text-align: right;">-0.209</td>
+<td style="text-align: right;">-0.156</td>
+<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">-13.592</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74056</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">-0.191</td>
+<td style="text-align: right;">-0.218</td>
+<td style="text-align: right;">-0.165</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">-14.145</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">73785</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Median effect size:</p>
+<div class="cell" data-hash="02_analyses_cache/html/unnamed-chunk-11_9795ea165f90cafb17b0991f8ab60507">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sca_b5<span class="sc">$</span>data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(y<span class="sc">==</span><span class="st">"extraversion"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">median_est =</span> <span class="fu">median</span>(estimate), <span class="at">median_conf.low =</span> <span class="fu">median</span>(conf.low), <span class="at">median_conf.high =</span> <span class="fu">median</span>(conf.high))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+  x                  median_est median_conf.low median_conf.high
+  &lt;chr&gt;                   &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;
+1 never_cohabitating     -0.240          -0.274           -0.207
+2 never_married          -0.183          -0.209           -0.156
+3 never_partnered        -0.246          -0.284           -0.208</code></pre>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Positive effect for extraversion that does not really depend on the set of control variables. The effect is a bit stronger when looking at people who were ever in a committed relationship or cohabited with a partner compared to those who were ever married.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="hyp2" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="hyp2"><span class="header-section-number">5.3</span> Hypothesis 2: Neuroticism</h3>
+<p><em>Lifelong singles self-report higher levels of neuroticism as compared to partnered individuals.</em></p>
+<p>All model results for neuroticism:</p>
+<div class="cell" data-hash="02_analyses_cache/html/unnamed-chunk-12_15b0c04544ab29f706f764b0ae08fa8d">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(sca_b5_p<span class="sc">$</span>data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(y<span class="sc">==</span><span class="st">"neuroticism"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(x, controls, estimate, conf.low, conf.high, std.error, statistic, p.value, fit_nobs), <span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 20%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 7%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">x</th>
+<th style="text-align: left;">controls</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">conf.low</th>
+<th style="text-align: right;">conf.high</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+<th style="text-align: right;">fit_nobs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-0.029</td>
+<td style="text-align: right;">0.053</td>
+<td style="text-align: right;">0.021</td>
+<td style="text-align: right;">0.557</td>
+<td style="text-align: right;">0.577</td>
+<td style="text-align: right;">74208</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">0.011</td>
+<td style="text-align: right;">-0.030</td>
+<td style="text-align: right;">0.052</td>
+<td style="text-align: right;">0.021</td>
+<td style="text-align: right;">0.533</td>
+<td style="text-align: right;">0.594</td>
+<td style="text-align: right;">74201</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">0.032</td>
+<td style="text-align: right;">-0.008</td>
+<td style="text-align: right;">0.073</td>
+<td style="text-align: right;">0.021</td>
+<td style="text-align: right;">1.556</td>
+<td style="text-align: right;">0.120</td>
+<td style="text-align: right;">74208</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">-0.036</td>
+<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">0.021</td>
+<td style="text-align: right;">0.224</td>
+<td style="text-align: right;">0.822</td>
+<td style="text-align: right;">74208</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">-0.034</td>
+<td style="text-align: right;">0.048</td>
+<td style="text-align: right;">0.021</td>
+<td style="text-align: right;">0.335</td>
+<td style="text-align: right;">0.738</td>
+<td style="text-align: right;">73942</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">0.011</td>
+<td style="text-align: right;">-0.030</td>
+<td style="text-align: right;">0.052</td>
+<td style="text-align: right;">0.021</td>
+<td style="text-align: right;">0.540</td>
+<td style="text-align: right;">0.589</td>
+<td style="text-align: right;">74208</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-0.029</td>
+<td style="text-align: right;">0.053</td>
+<td style="text-align: right;">0.021</td>
+<td style="text-align: right;">0.563</td>
+<td style="text-align: right;">0.574</td>
+<td style="text-align: right;">74208</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-0.029</td>
+<td style="text-align: right;">0.053</td>
+<td style="text-align: right;">0.021</td>
+<td style="text-align: right;">0.566</td>
+<td style="text-align: right;">0.571</td>
+<td style="text-align: right;">74208</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">0.023</td>
+<td style="text-align: right;">-0.018</td>
+<td style="text-align: right;">0.064</td>
+<td style="text-align: right;">0.021</td>
+<td style="text-align: right;">1.087</td>
+<td style="text-align: right;">0.277</td>
+<td style="text-align: right;">73935</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-0.025</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">0.647</td>
+<td style="text-align: right;">0.517</td>
+<td style="text-align: right;">74211</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">0.011</td>
+<td style="text-align: right;">-0.025</td>
+<td style="text-align: right;">0.048</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">0.609</td>
+<td style="text-align: right;">0.542</td>
+<td style="text-align: right;">74204</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">-0.007</td>
+<td style="text-align: right;">0.066</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">1.592</td>
+<td style="text-align: right;">0.111</td>
+<td style="text-align: right;">74211</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">-0.032</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">0.251</td>
+<td style="text-align: right;">0.802</td>
+<td style="text-align: right;">74211</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-0.025</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">0.649</td>
+<td style="text-align: right;">0.517</td>
+<td style="text-align: right;">73945</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-0.025</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">0.632</td>
+<td style="text-align: right;">0.527</td>
+<td style="text-align: right;">74211</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-0.025</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">0.653</td>
+<td style="text-align: right;">0.514</td>
+<td style="text-align: right;">74211</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-0.024</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">0.658</td>
+<td style="text-align: right;">0.511</td>
+<td style="text-align: right;">74211</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">0.024</td>
+<td style="text-align: right;">-0.013</td>
+<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">1.266</td>
+<td style="text-align: right;">0.206</td>
+<td style="text-align: right;">73938</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">-0.015</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">0.926</td>
+<td style="text-align: right;">0.354</td>
+<td style="text-align: right;">74201</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-0.017</td>
+<td style="text-align: right;">0.040</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">0.788</td>
+<td style="text-align: right;">0.431</td>
+<td style="text-align: right;">74194</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">0.029</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.057</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">1.970</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: right;">74201</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">-0.020</td>
+<td style="text-align: right;">0.037</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">0.562</td>
+<td style="text-align: right;">0.574</td>
+<td style="text-align: right;">74201</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">0.016</td>
+<td style="text-align: right;">-0.013</td>
+<td style="text-align: right;">0.045</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">1.098</td>
+<td style="text-align: right;">0.272</td>
+<td style="text-align: right;">73935</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">-0.015</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">0.922</td>
+<td style="text-align: right;">0.357</td>
+<td style="text-align: right;">74201</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">-0.015</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">0.930</td>
+<td style="text-align: right;">0.352</td>
+<td style="text-align: right;">74201</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">-0.015</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">0.941</td>
+<td style="text-align: right;">0.347</td>
+<td style="text-align: right;">74201</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">0.022</td>
+<td style="text-align: right;">-0.006</td>
+<td style="text-align: right;">0.051</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">1.517</td>
+<td style="text-align: right;">0.129</td>
+<td style="text-align: right;">73928</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Median effect size:</p>
+<div class="cell" data-hash="02_analyses_cache/html/unnamed-chunk-13_ac6bd915d9afd823425dce8757dceba7">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sca_b5<span class="sc">$</span>data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(y<span class="sc">==</span><span class="st">"neuroticism"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">median_est =</span> <span class="fu">median</span>(estimate), <span class="at">median_conf.low =</span> <span class="fu">median</span>(conf.low), <span class="at">median_conf.high =</span> <span class="fu">median</span>(conf.high))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+  x                  median_est median_conf.low median_conf.high
+  &lt;chr&gt;                   &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;
+1 never_cohabitating     0.0122         -0.0246           0.0490
+2 never_married          0.0136         -0.0150           0.0422
+3 never_partnered        0.0117         -0.0294           0.0527</code></pre>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>No effect for neuroticism.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="hyp3" class="level3" data-number="5.4">
+<h3 data-number="5.4" class="anchored" data-anchor-id="hyp3"><span class="header-section-number">5.4</span> Hypothesis 3: Conscientiousness</h3>
+<p><em>Lifelong singles self-report lower levels of conscientiousness as compared to partnered individuals.</em></p>
+<p>All model results for conscientiousness:</p>
+<div class="cell" data-hash="02_analyses_cache/html/unnamed-chunk-14_b77f7d01fb0c95a280c2bda34d9a48da">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(sca_b5_p<span class="sc">$</span>data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(y<span class="sc">==</span><span class="st">"conscientiousness"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(x, controls, estimate, conf.low, conf.high, std.error, statistic, p.value, fit_nobs), <span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 20%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 7%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">x</th>
+<th style="text-align: left;">controls</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">conf.low</th>
+<th style="text-align: right;">conf.high</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+<th style="text-align: right;">fit_nobs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">-0.137</td>
+<td style="text-align: right;">-0.171</td>
+<td style="text-align: right;">-0.104</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-8.090</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74150</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">-0.138</td>
+<td style="text-align: right;">-0.171</td>
+<td style="text-align: right;">-0.105</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-8.123</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74143</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">-0.130</td>
+<td style="text-align: right;">-0.164</td>
+<td style="text-align: right;">-0.097</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-7.682</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74150</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">-0.135</td>
+<td style="text-align: right;">-0.168</td>
+<td style="text-align: right;">-0.102</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-7.933</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74150</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">-0.137</td>
+<td style="text-align: right;">-0.171</td>
+<td style="text-align: right;">-0.104</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-8.075</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">73885</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">-0.138</td>
+<td style="text-align: right;">-0.171</td>
+<td style="text-align: right;">-0.104</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-8.098</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74150</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">-0.138</td>
+<td style="text-align: right;">-0.171</td>
+<td style="text-align: right;">-0.104</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-8.099</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74150</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">-0.138</td>
+<td style="text-align: right;">-0.171</td>
+<td style="text-align: right;">-0.104</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-8.091</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74150</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">-0.128</td>
+<td style="text-align: right;">-0.161</td>
+<td style="text-align: right;">-0.094</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-7.501</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">73878</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">-0.143</td>
+<td style="text-align: right;">-0.173</td>
+<td style="text-align: right;">-0.113</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">-9.396</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74153</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">-0.144</td>
+<td style="text-align: right;">-0.174</td>
+<td style="text-align: right;">-0.114</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">-9.453</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74146</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">-0.137</td>
+<td style="text-align: right;">-0.167</td>
+<td style="text-align: right;">-0.107</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">-9.015</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74153</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">-0.141</td>
+<td style="text-align: right;">-0.171</td>
+<td style="text-align: right;">-0.111</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">-9.213</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74153</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">-0.143</td>
+<td style="text-align: right;">-0.173</td>
+<td style="text-align: right;">-0.113</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">-9.388</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">73888</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">-0.143</td>
+<td style="text-align: right;">-0.173</td>
+<td style="text-align: right;">-0.114</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">-9.404</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74153</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">-0.143</td>
+<td style="text-align: right;">-0.173</td>
+<td style="text-align: right;">-0.114</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">-9.407</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74153</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">-0.143</td>
+<td style="text-align: right;">-0.173</td>
+<td style="text-align: right;">-0.113</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">-9.398</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74153</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">-0.135</td>
+<td style="text-align: right;">-0.165</td>
+<td style="text-align: right;">-0.105</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">-8.818</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">73881</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">-0.148</td>
+<td style="text-align: right;">-0.171</td>
+<td style="text-align: right;">-0.125</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-12.528</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74143</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">-0.153</td>
+<td style="text-align: right;">-0.176</td>
+<td style="text-align: right;">-0.129</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-12.841</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74136</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">-0.143</td>
+<td style="text-align: right;">-0.166</td>
+<td style="text-align: right;">-0.120</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-12.108</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74143</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">-0.146</td>
+<td style="text-align: right;">-0.170</td>
+<td style="text-align: right;">-0.123</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-12.364</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74143</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">-0.148</td>
+<td style="text-align: right;">-0.172</td>
+<td style="text-align: right;">-0.125</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-12.522</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">73878</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">-0.148</td>
+<td style="text-align: right;">-0.171</td>
+<td style="text-align: right;">-0.125</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-12.526</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74143</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">-0.148</td>
+<td style="text-align: right;">-0.172</td>
+<td style="text-align: right;">-0.125</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-12.539</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74143</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">-0.148</td>
+<td style="text-align: right;">-0.172</td>
+<td style="text-align: right;">-0.125</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-12.530</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74143</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">-0.144</td>
+<td style="text-align: right;">-0.167</td>
+<td style="text-align: right;">-0.120</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-12.048</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">73871</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Median effect size:</p>
+<div class="cell" data-hash="02_analyses_cache/html/unnamed-chunk-15_b4fb0802f2cc3dda0a07b875b26f74d9">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sca_b5<span class="sc">$</span>data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(y<span class="sc">==</span><span class="st">"conscientiousness"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">median_est =</span> <span class="fu">median</span>(estimate), <span class="at">median_conf.low =</span> <span class="fu">median</span>(conf.low), <span class="at">median_conf.high =</span> <span class="fu">median</span>(conf.high))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+  x                  median_est median_conf.low median_conf.high
+  &lt;chr&gt;                   &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;
+1 never_cohabitating     -0.143          -0.173           -0.113
+2 never_married          -0.148          -0.171           -0.125
+3 never_partnered        -0.137          -0.171           -0.104</code></pre>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Quite consistent effect for conscientiousness that is a bit smaller than the one for extraversion but is relatively similar across all the different specifications.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="hyp4" class="level3" data-number="5.5">
+<h3 data-number="5.5" class="anchored" data-anchor-id="hyp4"><span class="header-section-number">5.5</span> Hypothesis 4: Well-being / Life Satisfaction</h3>
+<p><em>Lifelong singles self-report lower levels of life satisfaction as compared to partnered individuals.</em></p>
+<p>Important for interpretation: Unlike for personality, I used POMP (percentage of maximum possible) scores here to make the results comparable across the two well-being operationalizations.</p>
+<p>All model results for well-being:</p>
+<div class="cell" data-hash="02_analyses_cache/html/unnamed-chunk-16_a1eb2237c9df8d764d58ec27f6f49f66">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(sca_wb_p<span class="sc">$</span>data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(y <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"life_satisfaction_p"</span>, <span class="st">"quality_of_life_p"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(y, x, controls, estimate, conf.low, conf.high, statistic, p.value, fit_nobs), <span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 16%">
+<col style="width: 18%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 6%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">y</th>
+<th style="text-align: left;">x</th>
+<th style="text-align: left;">controls</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">conf.low</th>
+<th style="text-align: right;">conf.high</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+<th style="text-align: right;">fit_nobs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">-4.903</td>
+<td style="text-align: right;">-5.659</td>
+<td style="text-align: right;">-4.148</td>
+<td style="text-align: right;">-12.721</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74511</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">-5.001</td>
+<td style="text-align: right;">-5.755</td>
+<td style="text-align: right;">-4.248</td>
+<td style="text-align: right;">-13.006</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74504</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">-5.015</td>
+<td style="text-align: right;">-5.770</td>
+<td style="text-align: right;">-4.260</td>
+<td style="text-align: right;">-13.015</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74511</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">-4.458</td>
+<td style="text-align: right;">-5.210</td>
+<td style="text-align: right;">-3.705</td>
+<td style="text-align: right;">-11.612</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74511</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">-4.693</td>
+<td style="text-align: right;">-5.444</td>
+<td style="text-align: right;">-3.942</td>
+<td style="text-align: right;">-12.248</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74243</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">-4.903</td>
+<td style="text-align: right;">-5.659</td>
+<td style="text-align: right;">-4.148</td>
+<td style="text-align: right;">-12.720</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74511</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">-4.910</td>
+<td style="text-align: right;">-5.665</td>
+<td style="text-align: right;">-4.154</td>
+<td style="text-align: right;">-12.738</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74511</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">-4.905</td>
+<td style="text-align: right;">-5.660</td>
+<td style="text-align: right;">-4.149</td>
+<td style="text-align: right;">-12.725</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74511</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">-4.564</td>
+<td style="text-align: right;">-5.313</td>
+<td style="text-align: right;">-3.814</td>
+<td style="text-align: right;">-11.935</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74236</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">-3.552</td>
+<td style="text-align: right;">-4.280</td>
+<td style="text-align: right;">-2.825</td>
+<td style="text-align: right;">-9.570</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70557</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">-3.825</td>
+<td style="text-align: right;">-4.536</td>
+<td style="text-align: right;">-3.114</td>
+<td style="text-align: right;">-10.546</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70550</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">-3.723</td>
+<td style="text-align: right;">-4.449</td>
+<td style="text-align: right;">-2.996</td>
+<td style="text-align: right;">-10.042</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70557</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">-2.997</td>
+<td style="text-align: right;">-3.719</td>
+<td style="text-align: right;">-2.275</td>
+<td style="text-align: right;">-8.140</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70557</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">-3.142</td>
+<td style="text-align: right;">-3.852</td>
+<td style="text-align: right;">-2.432</td>
+<td style="text-align: right;">-8.671</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70303</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">-3.550</td>
+<td style="text-align: right;">-4.277</td>
+<td style="text-align: right;">-2.822</td>
+<td style="text-align: right;">-9.562</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70557</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">-3.557</td>
+<td style="text-align: right;">-4.285</td>
+<td style="text-align: right;">-2.829</td>
+<td style="text-align: right;">-9.582</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70557</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">-3.554</td>
+<td style="text-align: right;">-4.282</td>
+<td style="text-align: right;">-2.827</td>
+<td style="text-align: right;">-9.575</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70557</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">-3.339</td>
+<td style="text-align: right;">-4.038</td>
+<td style="text-align: right;">-2.640</td>
+<td style="text-align: right;">-9.365</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70296</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">-4.733</td>
+<td style="text-align: right;">-5.410</td>
+<td style="text-align: right;">-4.055</td>
+<td style="text-align: right;">-13.689</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74516</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">-4.873</td>
+<td style="text-align: right;">-5.549</td>
+<td style="text-align: right;">-4.197</td>
+<td style="text-align: right;">-14.127</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74509</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">-4.828</td>
+<td style="text-align: right;">-5.505</td>
+<td style="text-align: right;">-4.150</td>
+<td style="text-align: right;">-13.968</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74516</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">-4.255</td>
+<td style="text-align: right;">-4.930</td>
+<td style="text-align: right;">-3.580</td>
+<td style="text-align: right;">-12.353</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74516</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">-4.676</td>
+<td style="text-align: right;">-5.349</td>
+<td style="text-align: right;">-4.002</td>
+<td style="text-align: right;">-13.606</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74248</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">-4.732</td>
+<td style="text-align: right;">-5.410</td>
+<td style="text-align: right;">-4.055</td>
+<td style="text-align: right;">-13.688</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74516</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">-4.738</td>
+<td style="text-align: right;">-5.416</td>
+<td style="text-align: right;">-4.061</td>
+<td style="text-align: right;">-13.705</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74516</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">-4.734</td>
+<td style="text-align: right;">-5.412</td>
+<td style="text-align: right;">-4.057</td>
+<td style="text-align: right;">-13.693</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74516</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">-4.499</td>
+<td style="text-align: right;">-5.172</td>
+<td style="text-align: right;">-3.826</td>
+<td style="text-align: right;">-13.110</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74241</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">-3.087</td>
+<td style="text-align: right;">-3.738</td>
+<td style="text-align: right;">-2.435</td>
+<td style="text-align: right;">-9.288</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70560</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">-3.483</td>
+<td style="text-align: right;">-4.120</td>
+<td style="text-align: right;">-2.847</td>
+<td style="text-align: right;">-10.726</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70553</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">-3.229</td>
+<td style="text-align: right;">-3.879</td>
+<td style="text-align: right;">-2.578</td>
+<td style="text-align: right;">-9.730</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70560</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">-2.493</td>
+<td style="text-align: right;">-3.139</td>
+<td style="text-align: right;">-1.847</td>
+<td style="text-align: right;">-7.561</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70560</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">-2.960</td>
+<td style="text-align: right;">-3.595</td>
+<td style="text-align: right;">-2.324</td>
+<td style="text-align: right;">-9.126</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70306</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">-3.084</td>
+<td style="text-align: right;">-3.736</td>
+<td style="text-align: right;">-2.433</td>
+<td style="text-align: right;">-9.281</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70560</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">-3.091</td>
+<td style="text-align: right;">-3.742</td>
+<td style="text-align: right;">-2.439</td>
+<td style="text-align: right;">-9.300</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70560</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">-3.088</td>
+<td style="text-align: right;">-3.740</td>
+<td style="text-align: right;">-2.437</td>
+<td style="text-align: right;">-9.294</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70560</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">-3.130</td>
+<td style="text-align: right;">-3.756</td>
+<td style="text-align: right;">-2.504</td>
+<td style="text-align: right;">-9.802</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70299</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">-4.169</td>
+<td style="text-align: right;">-4.695</td>
+<td style="text-align: right;">-3.643</td>
+<td style="text-align: right;">-15.536</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74505</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">-4.650</td>
+<td style="text-align: right;">-5.176</td>
+<td style="text-align: right;">-4.123</td>
+<td style="text-align: right;">-17.307</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74498</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">-4.253</td>
+<td style="text-align: right;">-4.778</td>
+<td style="text-align: right;">-3.727</td>
+<td style="text-align: right;">-15.850</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74505</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">-3.829</td>
+<td style="text-align: right;">-4.353</td>
+<td style="text-align: right;">-3.305</td>
+<td style="text-align: right;">-14.323</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74505</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">-4.240</td>
+<td style="text-align: right;">-4.763</td>
+<td style="text-align: right;">-3.718</td>
+<td style="text-align: right;">-15.903</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74237</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">-4.169</td>
+<td style="text-align: right;">-4.695</td>
+<td style="text-align: right;">-3.643</td>
+<td style="text-align: right;">-15.536</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74505</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">-4.171</td>
+<td style="text-align: right;">-4.697</td>
+<td style="text-align: right;">-3.645</td>
+<td style="text-align: right;">-15.543</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74505</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">-4.172</td>
+<td style="text-align: right;">-4.698</td>
+<td style="text-align: right;">-3.646</td>
+<td style="text-align: right;">-15.546</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74505</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">life_satisfaction_p</td>
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">-4.299</td>
+<td style="text-align: right;">-4.823</td>
+<td style="text-align: right;">-3.775</td>
+<td style="text-align: right;">-16.074</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">74230</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">-2.184</td>
+<td style="text-align: right;">-2.689</td>
+<td style="text-align: right;">-1.679</td>
+<td style="text-align: right;">-8.476</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70551</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">-3.482</td>
+<td style="text-align: right;">-3.977</td>
+<td style="text-align: right;">-2.987</td>
+<td style="text-align: right;">-13.787</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70544</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">-2.308</td>
+<td style="text-align: right;">-2.812</td>
+<td style="text-align: right;">-1.804</td>
+<td style="text-align: right;">-8.969</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70551</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">-1.758</td>
+<td style="text-align: right;">-2.259</td>
+<td style="text-align: right;">-1.257</td>
+<td style="text-align: right;">-6.878</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70551</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">-2.304</td>
+<td style="text-align: right;">-2.797</td>
+<td style="text-align: right;">-1.811</td>
+<td style="text-align: right;">-9.165</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70297</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">-2.184</td>
+<td style="text-align: right;">-2.689</td>
+<td style="text-align: right;">-1.679</td>
+<td style="text-align: right;">-8.475</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70551</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">-2.186</td>
+<td style="text-align: right;">-2.691</td>
+<td style="text-align: right;">-1.680</td>
+<td style="text-align: right;">-8.482</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70551</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">-2.187</td>
+<td style="text-align: right;">-2.692</td>
+<td style="text-align: right;">-1.681</td>
+<td style="text-align: right;">-8.486</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70551</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">quality_of_life_p</td>
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">-3.152</td>
+<td style="text-align: right;">-3.639</td>
+<td style="text-align: right;">-2.665</td>
+<td style="text-align: right;">-12.682</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70290</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Median effect size:</p>
+<div class="cell" data-hash="02_analyses_cache/html/unnamed-chunk-17_679ad55b2d6beecaa238d04012428fcd">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>sca_wb<span class="sc">$</span>data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(y <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"life_satisfaction_p"</span>, <span class="st">"quality_of_life_p"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(y, x) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">median_est =</span> <span class="fu">median</span>(estimate), <span class="at">median_conf.low =</span> <span class="fu">median</span>(conf.low), <span class="at">median_conf.high =</span> <span class="fu">median</span>(conf.high))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'y'. You can override using the `.groups`
+argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+# Groups:   y [2]
+  y                   x              median_est median_conf.low median_conf.high
+  &lt;chr&gt;               &lt;chr&gt;               &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;
+1 life_satisfaction_p never_cohabit…      -4.73           -5.41            -4.05
+2 life_satisfaction_p never_married       -4.17           -4.70            -3.65
+3 life_satisfaction_p never_partner…      -4.90           -5.66            -4.15
+4 quality_of_life_p   never_cohabit…      -3.09           -3.74            -2.44
+5 quality_of_life_p   never_married       -2.19           -2.69            -1.68
+6 quality_of_life_p   never_partner…      -3.55           -4.28            -2.82</code></pre>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Substantial effect for both life satisfaction and quality of life. The effect is somewhat stronger for life satisfaction and, again (as for extraversion), for those who were ever in a committed relationship or cohabited with a partner compared to those who were ever married. Controlling for covariates (e.g., income, age) does make a substantial difference here.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exploratory-results" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="exploratory-results"><span class="header-section-number">6</span> Exploratory results</h2>
+<p>Differences in openness for experiences and agreeableness between lifelong singles and partnered individuals will be investigated in an exploratory manner.</p>
+<section id="agreeableness" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="agreeableness"><span class="header-section-number">6.1</span> Agreeableness</h3>
+<p>All model results:</p>
+<div class="cell" data-hash="02_analyses_cache/html/unnamed-chunk-18_9fb7bba59fa0644d5421d6e820411b6f">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(sca_b5_p<span class="sc">$</span>data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(y<span class="sc">==</span><span class="st">"agreeableness"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(x, controls, estimate, conf.low, conf.high, std.error, statistic, p.value, fit_nobs), <span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 20%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 7%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">x</th>
+<th style="text-align: left;">controls</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">conf.low</th>
+<th style="text-align: right;">conf.high</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+<th style="text-align: right;">fit_nobs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">-0.048</td>
+<td style="text-align: right;">-0.081</td>
+<td style="text-align: right;">-0.014</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-2.769</td>
+<td style="text-align: right;">0.006</td>
+<td style="text-align: right;">74156</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">-0.045</td>
+<td style="text-align: right;">-0.079</td>
+<td style="text-align: right;">-0.012</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-2.641</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">74149</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">-0.040</td>
+<td style="text-align: right;">-0.074</td>
+<td style="text-align: right;">-0.006</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-2.332</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">74156</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">-0.048</td>
+<td style="text-align: right;">-0.082</td>
+<td style="text-align: right;">-0.015</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-2.809</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">74156</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">-0.051</td>
+<td style="text-align: right;">-0.085</td>
+<td style="text-align: right;">-0.017</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-2.963</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">73890</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">-0.047</td>
+<td style="text-align: right;">-0.081</td>
+<td style="text-align: right;">-0.014</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-2.759</td>
+<td style="text-align: right;">0.006</td>
+<td style="text-align: right;">74156</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">-0.048</td>
+<td style="text-align: right;">-0.081</td>
+<td style="text-align: right;">-0.014</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-2.772</td>
+<td style="text-align: right;">0.006</td>
+<td style="text-align: right;">74156</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">-0.048</td>
+<td style="text-align: right;">-0.081</td>
+<td style="text-align: right;">-0.014</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-2.777</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">74156</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">-0.038</td>
+<td style="text-align: right;">-0.072</td>
+<td style="text-align: right;">-0.005</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-2.228</td>
+<td style="text-align: right;">0.026</td>
+<td style="text-align: right;">73883</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">-0.052</td>
+<td style="text-align: right;">-0.082</td>
+<td style="text-align: right;">-0.022</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">-3.387</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">74159</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">-0.049</td>
+<td style="text-align: right;">-0.079</td>
+<td style="text-align: right;">-0.019</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">-3.185</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">74152</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">-0.046</td>
+<td style="text-align: right;">-0.076</td>
+<td style="text-align: right;">-0.016</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">-2.974</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">74159</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">-0.053</td>
+<td style="text-align: right;">-0.083</td>
+<td style="text-align: right;">-0.023</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">-3.437</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">74159</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">-0.055</td>
+<td style="text-align: right;">-0.085</td>
+<td style="text-align: right;">-0.025</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">-3.570</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73893</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">-0.052</td>
+<td style="text-align: right;">-0.082</td>
+<td style="text-align: right;">-0.022</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">-3.378</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">74159</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">-0.052</td>
+<td style="text-align: right;">-0.082</td>
+<td style="text-align: right;">-0.022</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">-3.390</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">74159</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">-0.052</td>
+<td style="text-align: right;">-0.083</td>
+<td style="text-align: right;">-0.022</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">-3.396</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">74159</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">-0.043</td>
+<td style="text-align: right;">-0.074</td>
+<td style="text-align: right;">-0.013</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">-2.809</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">73886</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">-0.059</td>
+<td style="text-align: right;">-0.083</td>
+<td style="text-align: right;">-0.036</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-4.942</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">74149</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">-0.049</td>
+<td style="text-align: right;">-0.073</td>
+<td style="text-align: right;">-0.026</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-4.109</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">74142</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">-0.054</td>
+<td style="text-align: right;">-0.077</td>
+<td style="text-align: right;">-0.030</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-4.484</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">74149</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">-0.060</td>
+<td style="text-align: right;">-0.083</td>
+<td style="text-align: right;">-0.036</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-4.990</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">74149</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">-0.060</td>
+<td style="text-align: right;">-0.084</td>
+<td style="text-align: right;">-0.037</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-5.024</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73883</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">-0.059</td>
+<td style="text-align: right;">-0.083</td>
+<td style="text-align: right;">-0.036</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-4.941</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">74149</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">-0.059</td>
+<td style="text-align: right;">-0.083</td>
+<td style="text-align: right;">-0.036</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-4.945</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">74149</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">-0.059</td>
+<td style="text-align: right;">-0.083</td>
+<td style="text-align: right;">-0.036</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-4.957</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">74149</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">-0.043</td>
+<td style="text-align: right;">-0.067</td>
+<td style="text-align: right;">-0.020</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">-3.604</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73876</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Median effect size:</p>
+<div class="cell" data-hash="02_analyses_cache/html/unnamed-chunk-19_682536417c24928f6f145165cd0ca353">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>sca_b5<span class="sc">$</span>data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(y<span class="sc">==</span><span class="st">"agreeableness"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">median_est =</span> <span class="fu">median</span>(estimate), <span class="at">median_conf.low =</span> <span class="fu">median</span>(conf.low), <span class="at">median_conf.high =</span> <span class="fu">median</span>(conf.high))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+  x                  median_est median_conf.low median_conf.high
+  &lt;chr&gt;                   &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;
+1 never_cohabitating    -0.0522         -0.0824          -0.0220
+2 never_married         -0.0592         -0.0826          -0.0357
+3 never_partnered       -0.0476         -0.0813          -0.0139</code></pre>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Very small effect that is probably not significant at <em>p</em> = .005.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="openness-to-experiences" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="openness-to-experiences"><span class="header-section-number">6.2</span> Openness to experiences</h3>
+<p>All model results:</p>
+<div class="cell" data-hash="02_analyses_cache/html/unnamed-chunk-20_1fa46c0479acc327754c2486d559ca9f">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(sca_b5_p<span class="sc">$</span>data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(y<span class="sc">==</span><span class="st">"openness"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(x, controls, estimate, conf.low, conf.high, std.error, statistic, p.value, fit_nobs), <span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 20%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 7%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">x</th>
+<th style="text-align: left;">controls</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">conf.low</th>
+<th style="text-align: right;">conf.high</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+<th style="text-align: right;">fit_nobs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">-0.114</td>
+<td style="text-align: right;">-0.153</td>
+<td style="text-align: right;">-0.075</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">-5.721</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73962</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">-0.119</td>
+<td style="text-align: right;">-0.158</td>
+<td style="text-align: right;">-0.080</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">-6.004</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73955</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">-0.108</td>
+<td style="text-align: right;">-0.147</td>
+<td style="text-align: right;">-0.069</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">-5.418</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73962</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">-0.099</td>
+<td style="text-align: right;">-0.138</td>
+<td style="text-align: right;">-0.060</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">-4.973</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73962</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">-0.097</td>
+<td style="text-align: right;">-0.136</td>
+<td style="text-align: right;">-0.059</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">-4.998</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73701</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">-0.114</td>
+<td style="text-align: right;">-0.153</td>
+<td style="text-align: right;">-0.075</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">-5.713</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73962</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">-0.114</td>
+<td style="text-align: right;">-0.153</td>
+<td style="text-align: right;">-0.075</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">-5.721</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73962</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">-0.114</td>
+<td style="text-align: right;">-0.153</td>
+<td style="text-align: right;">-0.075</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">-5.721</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73962</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_partnered</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">-0.087</td>
+<td style="text-align: right;">-0.125</td>
+<td style="text-align: right;">-0.049</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">-4.475</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73694</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">-0.073</td>
+<td style="text-align: right;">-0.108</td>
+<td style="text-align: right;">-0.038</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">-4.077</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73965</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">-0.080</td>
+<td style="text-align: right;">-0.115</td>
+<td style="text-align: right;">-0.046</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">-4.520</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73958</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">-0.068</td>
+<td style="text-align: right;">-0.103</td>
+<td style="text-align: right;">-0.033</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">-3.790</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73965</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">-0.057</td>
+<td style="text-align: right;">-0.092</td>
+<td style="text-align: right;">-0.022</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">-3.179</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">73965</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">-0.070</td>
+<td style="text-align: right;">-0.105</td>
+<td style="text-align: right;">-0.036</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-4.024</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73704</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">-0.073</td>
+<td style="text-align: right;">-0.108</td>
+<td style="text-align: right;">-0.038</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">-4.070</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73965</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">-0.073</td>
+<td style="text-align: right;">-0.108</td>
+<td style="text-align: right;">-0.038</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">-4.078</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73965</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">-0.073</td>
+<td style="text-align: right;">-0.108</td>
+<td style="text-align: right;">-0.038</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">-4.077</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73965</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_cohabitating</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">-0.061</td>
+<td style="text-align: right;">-0.096</td>
+<td style="text-align: right;">-0.027</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-3.511</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73697</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">no covariates</td>
+<td style="text-align: right;">-0.023</td>
+<td style="text-align: right;">-0.051</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">-1.691</td>
+<td style="text-align: right;">0.091</td>
+<td style="text-align: right;">73955</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">age_c</td>
+<td style="text-align: right;">-0.049</td>
+<td style="text-align: right;">-0.076</td>
+<td style="text-align: right;">-0.022</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">-3.535</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">73948</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">-0.019</td>
+<td style="text-align: right;">-0.046</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">-1.371</td>
+<td style="text-align: right;">0.171</td>
+<td style="text-align: right;">73955</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">income_z</td>
+<td style="text-align: right;">-0.012</td>
+<td style="text-align: right;">-0.039</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">-0.862</td>
+<td style="text-align: right;">0.389</td>
+<td style="text-align: right;">73955</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">-0.032</td>
+<td style="text-align: right;">-0.059</td>
+<td style="text-align: right;">-0.006</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">-2.388</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">73694</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">religiosity_z</td>
+<td style="text-align: right;">-0.023</td>
+<td style="text-align: right;">-0.051</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">-1.692</td>
+<td style="text-align: right;">0.091</td>
+<td style="text-align: right;">73955</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">gender_ratio_z</td>
+<td style="text-align: right;">-0.023</td>
+<td style="text-align: right;">-0.051</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">-1.692</td>
+<td style="text-align: right;">0.091</td>
+<td style="text-align: right;">73955</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">singles_proportion_z</td>
+<td style="text-align: right;">-0.023</td>
+<td style="text-align: right;">-0.051</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">-1.691</td>
+<td style="text-align: right;">0.091</td>
+<td style="text-align: right;">73955</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never_married</td>
+<td style="text-align: left;">all covariates</td>
+<td style="text-align: right;">-0.032</td>
+<td style="text-align: right;">-0.058</td>
+<td style="text-align: right;">-0.005</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">-2.313</td>
+<td style="text-align: right;">0.021</td>
+<td style="text-align: right;">73687</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Median effect size:</p>
+<div class="cell" data-hash="02_analyses_cache/html/unnamed-chunk-21_e952a731304a8560119ff5b8248edb87">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>sca_b5<span class="sc">$</span>data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(y<span class="sc">==</span><span class="st">"openness"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">median_est =</span> <span class="fu">median</span>(estimate), <span class="at">median_conf.low =</span> <span class="fu">median</span>(conf.low), <span class="at">median_conf.high =</span> <span class="fu">median</span>(conf.high))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+  x                  median_est median_conf.low median_conf.high
+  &lt;chr&gt;                   &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;
+1 never_cohabitating    -0.0726         -0.108          -0.0376 
+2 never_married         -0.0234         -0.0506          0.00371
+3 never_partnered       -0.114          -0.153          -0.0746 </code></pre>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Small effect that might only be significant for those never in a committed relationship.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="moderator-analyses-age-income" class="level3" data-number="6.3">
+<h3 data-number="6.3" class="anchored" data-anchor-id="moderator-analyses-age-income"><span class="header-section-number">6.3</span> Moderator analyses: age, income</h3>
+<p><em>We will also investigate potential moderator variables for all hypothesized effects, as well as for openness for experiences and agreeableness.</em></p>
+<p>In additional analyses, using multilevel regression models , we will investigate whether the relationship between singlehood and Big 5 personality traits or life satisfaction is moderated by participants’ age or income/ SES.</p>
+<p>Run models:</p>
+<p>#| echo: true #| warning: false #| output: false #| code-fold: true #| code-summary: “Show the code” #| cache: true</p>
+<p>“+ (1|country_str)”) lmerTest::lmer(formula, data</p>
+</section>
+<section id="moderator-analyses-country-level-variables" class="level3" data-number="6.4">
+<h3 data-number="6.4" class="anchored" data-anchor-id="moderator-analyses-country-level-variables"><span class="header-section-number">6.4</span> Moderator analyses: country-level variables</h3>
+<p><em>Further, although there is some evidence for cross-country or cross-cultural differences in the association between being single and life satisfaction. Thus, we investigate this association in an exploratory manner as well.</em></p>
+<p>For the geographical analyses, we will investigate differences in life satisfaction and Big 5 personality traits among singles vs.&nbsp;non-singles regarding the country level variables (from the countries they are currently living in) religiosity, gender ratio and single ratio (level-2 variables). More precisely, we will investigate cross-level interaction effects of these level-2 variables with ‘group’.</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          // default icon
+          link.classList.add("external");
+      }
+    }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
