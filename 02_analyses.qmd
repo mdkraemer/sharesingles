@@ -98,11 +98,6 @@ df_singles <- df_singles %>%
          isced_other = ifelse(!is.na(education), ifelse(education=="other/none", 1, 0), NA)) %>% 
   mutate(income_z = scale(income)) # z-standardize income
 
-# POMP scores for well-being (because scale is very different across the two!)
-df_singles <- df_singles %>% 
-  mutate(life_satisfaction_p = quest::pomp(life_satisfaction, mini=0, maxi=10, relative = FALSE, unit = 1),
-         quality_of_life_p = quest::pomp(quality_of_life, mini=12, maxi=48, relative = FALSE, unit = 1))
-
 # switch 0/1 dummy coding for predictors
 df_singles <- df_singles %>% 
   mutate(never_partnered = if_else(ever_partnered==1, 0, ifelse(ever_partnered==0, 1, NA)),
@@ -110,7 +105,62 @@ df_singles <- df_singles %>%
          never_married = if_else(ever_married==1, 0, ifelse(ever_married==0, 1, NA)))
 ```
 
-## Merge country-level data
+### Winsorize variables
+
+```{r}
+#| echo: true
+#| warning: false
+#| output: true
+#| code-fold: true
+#| code-summary: "Show the code"
+#| cache: true
+
+# winsorizing of outliers (code from Yannick Roos):
+# calculate means and standard deviations
+means <- sapply(df_singles[, c("extraversion", "agreeableness", "conscientiousness", "neuroticism", "openness",
+                               "life_satisfaction", "quality_of_life")], mean, na.rm = TRUE)
+sds <- sapply(df_singles[, c("extraversion", "agreeableness", "conscientiousness", "neuroticism", "openness",
+                             "life_satisfaction", "quality_of_life")], sd, na.rm = TRUE)
+
+# combine results into a data frame
+result_df <- data.frame(variable = names(means), mean = round(means,digits = 2), sd = round(sds,digits = 2))
+
+# detect outliers and winsorize as necessary
+for (col_name in c("extraversion", "agreeableness", "conscientiousness", "neuroticism", "openness",
+                    "life_satisfaction", "quality_of_life")) {
+  # detect outliers
+  outlier_indices <- which(df_singles[, col_name] < means[col_name] - 3 * sds[col_name] |
+                             df_singles[, col_name] > means[col_name] + 3 * sds[col_name])
+  
+  # winsorize if necessary
+  if (length(outlier_indices) > 0) {
+    print(paste(col_name, "has", length(outlier_indices),"outlier(s)"))
+    # create a new column with the winsorized values
+    winsorized_col_name <- paste0(col_name, "_w")
+    df_singles[winsorized_col_name] <- df_singles[, col_name]
+    df_singles[winsorized_col_name][df_singles[winsorized_col_name] < means[col_name] - 3 * sds[col_name]] <- means[col_name] - 3 * sds[col_name]
+    df_singles[winsorized_col_name][df_singles[winsorized_col_name] > means[col_name] + 3 * sds[col_name]] <- means[col_name] + 3 * sds[col_name]
+  }
+}
+```
+
+### Rescale variables
+
+```{r}
+#| echo: true
+#| warning: false
+#| output: false
+#| code-fold: true
+#| code-summary: "Show the code"
+#| cache: true
+
+# POMP scores for well-being (because scale is very different across the two!)
+df_singles <- df_singles %>% 
+  mutate(life_satisfaction_p = quest::pomp(life_satisfaction_w, mini=0, maxi=10, relative = FALSE, unit = 1),
+         quality_of_life_p = quest::pomp(quality_of_life_w, mini=12, maxi=48, relative = FALSE, unit = 1))
+```
+
+### Merge country-level data
 
 ```{r}
 #| echo: true
@@ -135,7 +185,7 @@ df_singles <- df_singles %>%
          singles_proportion_z = scale(singles_proportion))
 
 # labelled variable types sometimes cause problems donwstream -> convert to numeric
-df_singles <- df_singles %>% mutate_at(c("extraversion", "agreeableness", "conscientiousness", "neuroticism", "openness",
+df_singles <- df_singles %>% mutate_at(c("extraversion", "agreeableness_w", "conscientiousness_w", "neuroticism", "openness",
                                          "life_satisfaction_p", "quality_of_life_p"), as.numeric)
 ```
 
@@ -153,7 +203,7 @@ Run SCA:
 #| cache: true
 
 specifications_b5 <- crossing(
-  vec_outcome = c("extraversion", "agreeableness", "conscientiousness", "neuroticism", "openness"), 
+  vec_outcome = c("extraversion", "agreeableness_w", "conscientiousness_w", "neuroticism", "openness"), 
   vec_predictor = c("never_partnered", "never_cohabitating", "never_married"),
   vec_controls = c("none", "age", "gender", "income", "education", "religiosity", "gender_ratio", "singles_proportion", "all")) %>% 
   mutate(specnr = row_number()) %>% 
@@ -196,7 +246,7 @@ lmer_rs_2 <- function(formula, data,...) {
 # personality
 # Setup Specifications
 specs_b5 <- specr::setup(data = df_singles, 
-                  y = c("extraversion", "agreeableness", "conscientiousness", "neuroticism", "openness"), 
+                  y = c("extraversion", "agreeableness_w", "conscientiousness_w", "neuroticism", "openness"), 
                   x = c("never_partnered", "never_cohabitating", "never_married"), 
                   controls = c("age_c", "female", "income_z", "education", 
                                "religiosity_z", "gender_ratio_z", "singles_proportion_z"),
@@ -205,7 +255,7 @@ specs_b5 <- specr::setup(data = df_singles,
 
 # identical, but with p-values pls
 specs_b5_p <- specr::setup(data = df_singles, 
-                  y = c("extraversion", "agreeableness", "conscientiousness", "neuroticism", "openness"), 
+                  y = c("extraversion", "agreeableness_w", "conscientiousness_w", "neuroticism", "openness"), 
                   x = c("never_partnered", "never_cohabitating", "never_married"), 
                   controls = c("age_c", "female", "income_z", "education", 
                                "religiosity_z", "gender_ratio_z", "singles_proportion_z"),
@@ -308,10 +358,10 @@ sca_b5$data %>% filter(y=="extraversion") %>%
 ```
 
 ::: {.callout-note appearance="minimal"}
-Positive effect for extraversion that does not really depend on the set of control variables. The effect is a bit stronger when looking at people who were ever in a committed relationship or cohabited with a partner compared to those who were ever married.
+Negative effect for extraversion that does not really depend on the set of control variables. The effect is a bit stronger when looking at people who were never in a committed relationship or never cohabited with a partner compared to those who were never married.
 :::
 
-### Hypothesis 2: Neuroticism {#hyp2}
+#### Hypothesis 2: Neuroticism {#hyp2}
 
 *Lifelong singles self-report higher levels of neuroticism as compared to partnered individuals.* 
 
@@ -334,21 +384,21 @@ sca_b5$data %>% filter(y=="neuroticism") %>%
 No effect for neuroticism.
 :::
 
-### Hypothesis 3: Conscientiousness {#hyp3}
+#### Hypothesis 3: Conscientiousness {#hyp3}
 
 *Lifelong singles self-report lower levels of conscientiousness as compared to partnered individuals.* 
 
 All model results for conscientiousness:
 ```{r}
 #| echo: true
-kable(sca_b5_p$data %>% filter(y=="conscientiousness") %>% 
+kable(sca_b5_p$data %>% filter(y=="conscientiousness_w") %>% 
         select(x, controls, estimate, conf.low, conf.high, std.error, statistic, p.value, fit_nobs), digits = 3)
 ```
 
 Median effect size:
 ```{r}
 #| echo: true
-sca_b5$data %>% filter(y=="conscientiousness") %>% 
+sca_b5$data %>% filter(y=="conscientiousness_w") %>% 
   group_by(x) %>% 
   summarise(median_est = median(estimate), median_conf.low = median(conf.low), median_conf.high = median(conf.high))
 ```
@@ -357,7 +407,7 @@ sca_b5$data %>% filter(y=="conscientiousness") %>%
 Quite consistent effect for conscientiousness that is a bit smaller than the one for extraversion but is relatively similar across all the different specifications.
 :::
 
-### Hypothesis 4: Well-being / Life Satisfaction {#hyp4}
+#### Hypothesis 4: Well-being / Life Satisfaction {#hyp4}
 
 *Lifelong singles self-report lower levels of life satisfaction as compared to partnered individuals.* 
 
@@ -379,7 +429,7 @@ sca_wb$data %>% filter(y %in% c("life_satisfaction_p", "quality_of_life_p")) %>%
 ```
 
 ::: {.callout-note appearance="minimal"}
-Substantial effect for both life satisfaction and quality of life. The effect is somewhat stronger for life satisfaction and, again (as for extraversion), for those who were ever in a committed relationship or cohabited with a partner compared to those who were ever married. Controlling for covariates (e.g., income, age) does make a substantial difference here.
+Substantial effect for both life satisfaction and quality of life. The effect is somewhat stronger for life satisfaction and, again (as for extraversion), for those who were never in a committed relationship or never cohabited with a partner compared to those who were never married. Controlling for covariates (e.g., income, age) does make a substantial difference here.
 :::
 
 ## Exploratory results
@@ -391,14 +441,14 @@ Differences in openness for experiences and agreeableness between lifelong singl
 All model results:
 ```{r}
 #| echo: true
-kable(sca_b5_p$data %>% filter(y=="agreeableness") %>% 
+kable(sca_b5_p$data %>% filter(y=="agreeableness_w") %>% 
         select(x, controls, estimate, conf.low, conf.high, std.error, statistic, p.value, fit_nobs), digits = 3)
 ```
 
 Median effect size:
 ```{r}
 #| echo: true
-sca_b5$data %>% filter(y=="agreeableness") %>% 
+sca_b5$data %>% filter(y=="agreeableness_w") %>% 
   group_by(x) %>% 
   summarise(median_est = median(estimate), median_conf.low = median(conf.low), median_conf.high = median(conf.high))
 ```
@@ -432,7 +482,7 @@ Small effect that is not consistently significant for those never married.
 
 *We will also investigate potential moderator variables for all hypothesized effects, as well as for openness for experiences and agreeableness.*  
 
-In additional analyses, using multilevel regression models , we will investigate whether the relationship between singlehood and Big 5 personality traits or life satisfaction is moderated by participants' age or income/ SES.
+In additional analyses, using multilevel regression models , we will investigate whether the relationship between singlehood and Big 5 personality traits or life satisfaction is moderated by participants' age or income / SES.
 
 Run models:
 ```{r}
@@ -443,9 +493,94 @@ Run models:
 #| code-summary: "Show the code"
 #| cache: true
 
-# "+ (1|country_str)")
-#   lmerTest::lmer(formula, data
+# custom function
+lmer_cust_int_pers = function(outcome, predictor, moderator, df, random_slope=FALSE) {
+  
+  if (random_slope==TRUE) {
+    form = as.formula(paste0(outcome, " ~ 1 + ", predictor, "*", moderator, 
+                             " + (1 + ", predictor, " + ", moderator, " | country_str)"))
+  }
+  else {
+    form = as.formula(paste0(outcome, " ~ 1 + ", predictor, "*", moderator, " + (1 | country_str)"))
+  }
+  lmerTest::lmer(form, data = get(df), control=lmerControl(optimizer="bobyqa",
+                                                optCtrl=list(maxfun=2e5)))
+}
+
+outcomes <- as.list(c(rep("extraversion", 6), rep("agreeableness_w", 6), rep("conscientiousness_w", 6), 
+                      rep("neuroticism", 6), rep("openness", 6), rep("life_satisfaction", 6), rep("quality_of_life", 6)))
+predictors <- as.list(rep(c("never_partnered", "never_cohabitating", "never_married"), 14))
+moderators <- as.list(rep(c("age_c", "age_c", "age_c", "income_z", "income_z", "income_z"), 7))
+df_names <- rep(list("df_singles"), 42)
+slopes_fr <- rep(list(FALSE), 42) # for now without random slopes
+combinations <- list(outcomes=outcomes, predictors=predictors, moderators=moderators, df_names=df_names, slopes_fr=slopes_fr)
+
+# run models
+mods_expl_pers <- combinations %>% purrr::pmap(~with(list(...), lmer_cust_int_pers(outcomes, predictors, moderators, df_names, slopes_fr)))
+names(mods_expl_pers) <- paste(unlist(outcomes), unlist(predictors), unlist(moderators), sep = "_")
+
+# create summary df
+summary_mods_expl_pers <- mods_expl_pers[[1]] %>% tidy() %>% 
+  filter(str_detect(term, ":")) %>% 
+  mutate(outcome = stringr::word(names(mods_expl_pers)[1], 1, sep = "_")) %>% 
+  select(outcome, term, estimate, std.error, p.value)
+
+for (i in 2:length(mods_expl_pers)) {
+  # loop over all models
+  row_to_add <- mods_expl_pers[[i]] %>% tidy() %>% 
+  filter(str_detect(term, ":")) %>% 
+  mutate(outcome = stringr::word(names(mods_expl_pers)[i], 1, sep = "_")) %>% 
+  select(outcome, term, estimate, std.error, p.value)
+  # add rows
+  summary_mods_expl_pers <- bind_rows(summary_mods_expl_pers, row_to_add)
+}
 ```
+
+Summary of results: Extraversion
+```{r}
+#| echo: true
+summary_mods_expl_pers %>% filter(outcome=="extraversion") %>% kable(., digits = 3)
+```
+
+Summary of results: Agreeableness
+```{r}
+#| echo: true
+summary_mods_expl_pers %>% filter(outcome=="agreeableness_w") %>% kable(., digits = 3)
+```
+
+Summary of results: Conscientiousness
+```{r}
+#| echo: true
+summary_mods_expl_pers %>% filter(outcome=="conscientiousness_w") %>% kable(., digits = 3)
+```
+
+Summary of results: Neuroticism
+```{r}
+#| echo: true
+summary_mods_expl_pers %>% filter(outcome=="neuroticism") %>% kable(., digits = 3)
+```
+
+Summary of results: Openness
+```{r}
+#| echo: true
+summary_mods_expl_pers %>% filter(outcome=="openness") %>% kable(., digits = 3)
+```
+
+Summary of results: Life satisfaction
+```{r}
+#| echo: true
+summary_mods_expl_pers %>% filter(outcome=="life") %>% kable(., digits = 3)
+```
+
+Summary of results: Quality of life
+```{r}
+#| echo: true
+summary_mods_expl_pers %>% filter(outcome=="quality") %>% kable(., digits = 3)
+```
+
+::: {.callout-note appearance="minimal"}
+Only moderation that is consistently significant at *p* = .005 is for life satisfaction and age. 
+:::
 
 ### Moderator analyses: country-level variables
 
@@ -453,4 +588,102 @@ Run models:
 
 For the geographical analyses, we will investigate differences in life satisfaction and Big 5 personality traits among singles vs. non-singles regarding the country level variables (from the countries they are currently living in) religiosity, gender ratio and single ratio (level-2 variables). More precisely, we will investigate cross-level interaction effects of these level-2 variables with 'group'.
 
+Run models:
+```{r}
+#| echo: true
+#| warning: false
+#| output: false
+#| code-fold: true
+#| code-summary: "Show the code"
+#| cache: true
 
+# custom function
+lmer_cust_int_cntr = function(outcome, predictor, moderator, df, random_slope=FALSE) {
+  
+  if (random_slope==TRUE) {
+    form = as.formula(paste0(outcome, " ~ 1 + ", predictor, "*", moderator, 
+                             " + (1 + ", predictor, " + ", moderator, " | country_str)"))
+  }
+  else {
+    form = as.formula(paste0(outcome, " ~ 1 + ", predictor, "*", moderator, " + (1 | country_str)"))
+  }
+  lmerTest::lmer(form, data = get(df), control=lmerControl(optimizer="bobyqa",
+                                                optCtrl=list(maxfun=2e5)))
+}
+
+outcomes <- as.list(c(rep("extraversion", 9), rep("agreeableness_w", 9), rep("conscientiousness_w", 9), 
+                      rep("neuroticism", 9), rep("openness", 9), rep("life_satisfaction", 9), rep("quality_of_life", 9)))
+predictors <- as.list(rep(c("never_partnered", "never_cohabitating", "never_married"), 21))
+moderators <- as.list(rep(c("religiosity_z", "religiosity_z", "religiosity_z", 
+                            "gender_ratio_z", "gender_ratio_z", "gender_ratio_z",
+                            "singles_proportion_z", "singles_proportion_z", "singles_proportion_z"), 7))
+df_names <- rep(list("df_singles"), 63)
+slopes_fr <- rep(list(FALSE), 63) # for now without random slopes
+combinations <- list(outcomes=outcomes, predictors=predictors, moderators=moderators, df_names=df_names, slopes_fr=slopes_fr)
+
+# run models
+mods_expl_cntr <- combinations %>% purrr::pmap(~with(list(...), lmer_cust_int_cntr(outcomes, predictors, moderators, df_names, slopes_fr)))
+names(mods_expl_cntr) <- paste(unlist(outcomes), unlist(predictors), unlist(moderators), sep = "_")
+
+# create summary df
+summary_mods_expl_cntr <- mods_expl_cntr[[1]] %>% tidy() %>% 
+  filter(str_detect(term, ":")) %>% 
+  mutate(outcome = stringr::word(names(mods_expl_cntr)[1], 1, sep = "_")) %>% 
+  select(outcome, term, estimate, std.error, p.value)
+
+for (i in 2:length(mods_expl_cntr)) {
+  # loop over all models
+  row_to_add <- mods_expl_cntr[[i]] %>% tidy() %>% 
+  filter(str_detect(term, ":")) %>% 
+  mutate(outcome = stringr::word(names(mods_expl_cntr)[i], 1, sep = "_")) %>% 
+  select(outcome, term, estimate, std.error, p.value)
+  # add rows
+  summary_mods_expl_cntr <- bind_rows(summary_mods_expl_cntr, row_to_add)
+}
+```
+
+Summary of results: Extraversion
+```{r}
+#| echo: true
+summary_mods_expl_cntr %>% filter(outcome=="extraversion") %>% kable(., digits = 3)
+```
+
+Summary of results: Agreeableness
+```{r}
+#| echo: true
+summary_mods_expl_cntr %>% filter(outcome=="agreeableness_w") %>% kable(., digits = 3)
+```
+
+Summary of results: Conscientiousness
+```{r}
+#| echo: true
+summary_mods_expl_cntr %>% filter(outcome=="conscientiousness_w") %>% kable(., digits = 3)
+```
+
+Summary of results: Neuroticism
+```{r}
+#| echo: true
+summary_mods_expl_cntr %>% filter(outcome=="neuroticism") %>% kable(., digits = 3)
+```
+
+Summary of results: Openness
+```{r}
+#| echo: true
+summary_mods_expl_cntr %>% filter(outcome=="openness") %>% kable(., digits = 3)
+```
+
+Summary of results: Life satisfaction
+```{r}
+#| echo: true
+summary_mods_expl_cntr %>% filter(outcome=="life") %>% kable(., digits = 3)
+```
+
+Summary of results: Quality of life
+```{r}
+#| echo: true
+summary_mods_expl_cntr %>% filter(outcome=="quality") %>% kable(., digits = 3)
+```
+
+::: {.callout-note appearance="minimal"}
+Cross-level moderation effects that are significant at *p* = .005 are present for agreeableness and the proportion of singles, neuroticism and gender ratio as well as proportion of singles, life satisfaction and religiosity, and quality of life and gender ratio as well as proportion of singles (and also religiosity for those never partnered). 
+:::

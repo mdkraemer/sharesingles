@@ -135,9 +135,6 @@ sds <- sapply(df_singles[, c("extraversion", "agreeableness", "conscientiousness
 # combine results into a data frame
 result_df <- data.frame(variable = names(means), mean = round(means,digits = 2), sd = round(sds,digits = 2))
 
-# print the data frame
-result_df
-
 # detect outliers and winsorize as necessary
 for (col_name in c("extraversion", "agreeableness", "conscientiousness", "neuroticism", "openness",
                     "life_satisfaction", "quality_of_life")) {

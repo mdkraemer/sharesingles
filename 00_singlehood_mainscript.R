@@ -14,4 +14,4 @@ library(quarto)
 rmarkdown::render("01_datacleaning.Rmd")
 
 ### run analysis scripts
-# quarto_render("02_analyses.qmd")
+quarto_render("02_analyses.qmd")
