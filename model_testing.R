@@ -159,3 +159,48 @@ df_singles <- df_singles %>%
   mutate(life_satisfaction_p = quest::pomp(life_satisfaction, mini=0, maxi=10, relative = FALSE, unit = 1),
          quality_of_life_p = quest::pomp(quality_of_life, mini=12, maxi=48, relative = FALSE, unit = 1))
 
+
+# check random slope convergence
+# (in models with full set of covariates)
+
+# custom function
+lmer_cust_int_test = function(outcome, predictor, df, random_slope=FALSE) {
+  
+  if (random_slope==TRUE) {
+    form = as.formula(paste0(outcome, " ~ 1 + ", predictor,
+                             " + age_c + female + income_z + education + 
+                             religiosity_z + gender_ratio_z + singles_proportion_z + (1 + ", predictor, " | country_str)"))
+  }
+  else {
+    form = as.formula(paste0(outcome, " ~ 1 + ", predictor, " + (1 | country_str)"))
+  }
+  lmerTest::lmer(form, data = get(df), control=lmerControl(optimizer="bobyqa",
+                                                           optCtrl=list(maxfun=2e5)))
+}
+
+outcomes <- as.list(c(rep("extraversion", 3), rep("agreeableness_w", 3), rep("conscientiousness_w", 3), 
+                      rep("neuroticism", 3), rep("openness", 3), rep("life_satisfaction", 3), rep("quality_of_life", 3)))
+predictors <- as.list(rep(c("never_partnered", "never_cohabitating", "never_married"), 7))
+df_names <- rep(list("df_singles"), 21)
+slopes_fr <- rep(list(TRUE), 21) # with random slopes
+combinations <- list(outcomes=outcomes, predictors=predictors, df_names=df_names, slopes_fr=slopes_fr)
+
+# run models
+mods_expl_test <- combinations %>% purrr::pmap(~with(list(...), lmer_cust_int_test(outcomes, predictors, df_names, slopes_fr)))
+names(mods_expl_test) <- paste(unlist(outcomes), unlist(predictors), sep = "_")
+
+
+# smaller test SCA
+specs_b5 <- specr::setup(data = df_singles, 
+                         y = c("extraversion", "agreeableness_w"), 
+                         x = c("never_partnered", "never_cohabitating"), 
+                         controls = c("age_c", "female", "income_z"),
+                         simplify = T, # not all combinations of covars
+                         model = c("lmer_rs_1"))
+sca_b5 <- specr(specs_b5) 
+
+mod1 <- lme4::lmer(extraversion ~ never_partnered + 1 + (1 + never_partnered | country_str), data = df_singles, control=lmerControl(optimizer="bobyqa",
+                                              optCtrl=list(maxfun=2e5)))
+summary(mod1)
+tidy(mod1)
+
