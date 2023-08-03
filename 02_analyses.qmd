@@ -46,6 +46,7 @@ library(lme4)
 library(lmerTest)
 library(furrr)
 library(knitr)
+library(performance)
 ```
 
 ## Load cleaned data
@@ -784,7 +785,7 @@ Run models:
 #| code-fold: true
 #| code-summary: "Show the code"
 #| cache: true
-#| include: false
+#| include: true
 
 # custom function
 lmer_cust_int_pers = function(outcome, predictor, moderator, df, random_slope=FALSE) {
@@ -850,4 +851,109 @@ For life satisfaction, there is evidence for moderation of the association with 
 For quality of life, effects are somewhat similar. There is evidence for moderation of the association with singlehood by the personality traits extraversion (only "never cohabitating"), conscientiousness (only "never partnered"), and neuroticsm ("never married" and suggestive evidence for "never cohabitating"). No significant moderation effects for agreeableness, though. 
 :::
 
+### Proportion of explained variance in well-being due to singlehood status vs. personality
+
+Run models:
+```{r}
+#| echo: true
+#| warning: false
+#| output: false
+#| code-fold: true
+#| code-summary: "Show the code"
+#| cache: true
+#| include: true
+
+# life satisfaction 
+expl_variance_ls_partnered <- 
+  lmerTest::lmer(life_satisfaction_p ~ 1 + never_partnered + (1 | country_str), 
+                 data = df_singles, control=lmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+
+expl_variance_ls_b5 <- 
+  lmerTest::lmer(life_satisfaction_p ~ 1 + extraversion + agreeableness_w + conscientiousness_w + neuroticism + openness + (1 | country_str), 
+                 data = df_singles, control=lmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+
+expl_variance_ls_partnered_b5 <- 
+  lmerTest::lmer(life_satisfaction_p ~ 1 + never_partnered + 
+                   extraversion + agreeableness_w + conscientiousness_w + neuroticism + openness + (1 | country_str), 
+                 data = df_singles, control=lmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+
+expl_variance_ls_cohabitating <- 
+  lmerTest::lmer(life_satisfaction_p ~ 1 + never_cohabitating + (1 | country_str), 
+                 data = df_singles, control=lmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+
+expl_variance_ls_cohabitating_b5 <- 
+  lmerTest::lmer(life_satisfaction_p ~ 1 + never_cohabitating + 
+                   extraversion + agreeableness_w + conscientiousness_w + neuroticism + openness + (1 | country_str), 
+                 data = df_singles, control=lmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+
+expl_variance_ls_married <- 
+  lmerTest::lmer(life_satisfaction_p ~ 1 + never_married + (1 | country_str), 
+                 data = df_singles, control=lmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+
+expl_variance_ls_married_b5 <- 
+  lmerTest::lmer(life_satisfaction_p ~ 1 + never_married + 
+                   extraversion + agreeableness_w + conscientiousness_w + neuroticism + openness + (1 | country_str), 
+                 data = df_singles, control=lmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+
+# quality of life
+expl_variance_qual_partnered <- 
+  lmerTest::lmer(quality_of_life_p ~ 1 + never_partnered + (1 | country_str), 
+                 data = df_singles, control=lmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+
+expl_variance_qual_b5 <- 
+  lmerTest::lmer(quality_of_life_p ~ 1 + extraversion + agreeableness_w + conscientiousness_w + neuroticism + openness + (1 | country_str), 
+                 data = df_singles, control=lmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+
+expl_variance_qual_partnered_b5 <- 
+  lmerTest::lmer(quality_of_life_p ~ 1 + never_partnered + 
+                   extraversion + agreeableness_w + conscientiousness_w + neuroticism + openness + (1 | country_str), 
+                 data = df_singles, control=lmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+
+expl_variance_qual_cohabitating <- 
+  lmerTest::lmer(quality_of_life_p ~ 1 + never_cohabitating + (1 | country_str), 
+                 data = df_singles, control=lmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+
+expl_variance_qual_cohabitating_b5 <- 
+  lmerTest::lmer(quality_of_life_p ~ 1 + never_cohabitating + 
+                   extraversion + agreeableness_w + conscientiousness_w + neuroticism + openness + (1 | country_str), 
+                 data = df_singles, control=lmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+
+expl_variance_qual_married <- 
+  lmerTest::lmer(quality_of_life_p ~ 1 + never_married + (1 | country_str), 
+                 data = df_singles, control=lmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+
+expl_variance_qual_married_b5 <- 
+  lmerTest::lmer(quality_of_life_p ~ 1 + never_married + 
+                   extraversion + agreeableness_w + conscientiousness_w + neuroticism + openness + (1 | country_str), 
+                 data = df_singles, control=lmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+```
+
+"For mixed models, the conditional and marginal R-squared are returned. The marginal R-squared considers only the variance of the fixed effects and indicates how much of the model’s variance is explained by the fixed effects part only. The conditional R-squared takes both the fixed and random effects into account and indicates how much of the model’s variance is explained by the “complete” model.", see https://easystats.github.io/performance/
+
+Summary of results: Life satisfaction
+```{r}
+#| echo: true
+
+# never partnered
+kable(compare_performance(expl_variance_ls_partnered, expl_variance_ls_b5, expl_variance_ls_partnered_b5, verbose = FALSE)[c("Name", "AIC", "BIC", "R2_conditional", "R2_marginal", "ICC", "RMSE", "Sigma")], digits = 3)
+
+# never cohabitating
+kable(compare_performance(expl_variance_ls_cohabitating, expl_variance_ls_b5, expl_variance_ls_cohabitating_b5, verbose = FALSE)[c("Name", "AIC", "BIC", "R2_conditional", "R2_marginal", "ICC", "RMSE", "Sigma")], digits = 3)
+
+# never married
+kable(compare_performance(expl_variance_ls_married, expl_variance_ls_b5, expl_variance_ls_married_b5, verbose = FALSE)[c("Name", "AIC", "BIC", "R2_conditional", "R2_marginal", "ICC", "RMSE", "Sigma")], digits = 3)
+```
+
+Summary of results: Quality of life
+```{r}
+#| echo: true
+# never partnered
+kable(compare_performance(expl_variance_qual_partnered, expl_variance_qual_b5, expl_variance_qual_partnered_b5, verbose = FALSE)[c("Name", "AIC", "BIC", "R2_conditional", "R2_marginal", "ICC", "RMSE", "Sigma")], digits = 3)
+
+# never cohabitating
+kable(compare_performance(expl_variance_qual_cohabitating, expl_variance_qual_b5, expl_variance_qual_cohabitating_b5, verbose = FALSE)[c("Name", "AIC", "BIC", "R2_conditional", "R2_marginal", "ICC", "RMSE", "Sigma")], digits = 3)
+
+# never married
+kable(compare_performance(expl_variance_qual_married, expl_variance_qual_b5, expl_variance_qual_married_b5, verbose = FALSE)[c("Name", "AIC", "BIC", "R2_conditional", "R2_marginal", "ICC", "RMSE", "Sigma")], digits = 3)
+```
 
