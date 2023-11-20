@@ -47,6 +47,8 @@ library(lmerTest)
 library(furrr)
 library(knitr)
 library(performance)
+library(Hmisc)
+library(corrplot)
 ```
 
 ## Load cleaned data
@@ -107,6 +109,54 @@ df_singles <- df_singles %>%
          never_married = if_else(ever_married==1, 0, ifelse(ever_married==0, 1, NA)))
 ```
 
+### Reliability CASP-12
+
+```{r}
+#| echo: true
+#| warning: false
+#| output: true
+#| cache: true
+
+# recode all CASP-items so that higher values relate to better well-being. right now it is:
+# 1 [Often]   
+# 2 [Sometimes]
+# 3 [Rarely]  
+# 4 [Never]   
+df_singles <- df_singles %>% 
+  mutate(across(starts_with("casp"), ~ max(.x, na.rm=T) - .x + 1))
+
+# count missings
+df_singles <- df_singles %>% 
+  rowwise %>% 
+  mutate(na_casp = sum(is.na(across(starts_with("casp"))))) %>% 
+  ungroup()
+
+# Cronbach's alpha
+alpha_casp <- df_singles %>% 
+  dplyr::select(starts_with("casp")) %>%
+  psych::alpha(check.keys = TRUE)
+alpha_casp$total
+# Omega
+omega_casp <- df_singles %>% 
+  dplyr::select(starts_with("casp")) %>% 
+  psych::omega(m = ., keys = alpha_casp$keys, plot = FALSE, nfactors=4)
+omega_casp$omega_h
+omega_casp$omega.tot
+# add scored variable
+df_singles$casp <- df_singles %>%
+  select(starts_with("casp")) %>%
+  psych::reverse.code(keys=alpha_casp$keys[[1]], items = .) %>%
+  rowSums(na.rm=T)
+
+df_singles <- df_singles %>% 
+  mutate(casp_all = ifelse(na_casp>0, NA, casp), # same as in generated var: score is NA if one or more items are NA
+         casp_alt = ifelse(na_casp>4, NA, casp)) # alternative: score is NA if more than 4 items are NA
+summary(df_singles$casp_all) # same as generated variable 
+summary(df_singles$quality_of_life)
+
+summary(df_singles$casp_alt) # 4111 less NA!
+```
+
 ### Winsorize variables
 
 ```{r}
@@ -120,16 +170,16 @@ df_singles <- df_singles %>%
 # winsorizing of outliers (code from Yannick Roos):
 # calculate means and standard deviations
 means <- sapply(df_singles[, c("extraversion", "agreeableness", "conscientiousness", "neuroticism", "openness",
-                               "life_satisfaction", "quality_of_life")], mean, na.rm = TRUE)
+                               "life_satisfaction", "quality_of_life", "casp_alt")], mean, na.rm = TRUE)
 sds <- sapply(df_singles[, c("extraversion", "agreeableness", "conscientiousness", "neuroticism", "openness",
-                             "life_satisfaction", "quality_of_life")], sd, na.rm = TRUE)
+                             "life_satisfaction", "quality_of_life", "casp_alt")], sd, na.rm = TRUE)
 
 # combine results into a data frame
 result_df <- data.frame(variable = names(means), mean = round(means,digits = 2), sd = round(sds,digits = 2))
 
 # detect outliers and winsorize as necessary
 for (col_name in c("extraversion", "agreeableness", "conscientiousness", "neuroticism", "openness",
-                    "life_satisfaction", "quality_of_life")) {
+                    "life_satisfaction", "quality_of_life", "casp_alt")) {
   # detect outliers
   outlier_indices <- which(df_singles[, col_name] < means[col_name] - 3 * sds[col_name] |
                              df_singles[, col_name] > means[col_name] + 3 * sds[col_name])
@@ -159,7 +209,8 @@ for (col_name in c("extraversion", "agreeableness", "conscientiousness", "neurot
 # POMP scores for well-being (because scale is very different across the two!)
 df_singles <- df_singles %>% 
   mutate(life_satisfaction_p = quest::pomp(life_satisfaction_w, mini=0, maxi=10, relative = FALSE, unit = 1),
-         quality_of_life_p = quest::pomp(quality_of_life_w, mini=12, maxi=48, relative = FALSE, unit = 1))
+         quality_of_life_p = quest::pomp(quality_of_life_w, mini=12, maxi=48, relative = FALSE, unit = 1),
+         casp_alt_p = quest::pomp(casp_alt, mini=12, maxi=48, relative = FALSE, unit = 1))
 ```
 
 ### Merge country-level data
@@ -192,10 +243,15 @@ df_singles <- df_singles %>% mutate_at(c("extraversion", "agreeableness_w", "con
 ```
 ## Descriptives
 
+### Sample size
+
 *How many participants do we have in total / in each group (never married/ never cohabitating/ never partnered)?* 
 
 ```{r}
 #| echo: true
+# for all participants 
+df_singles %>% filter(!is.na(never_partnered) | !is.na(never_cohabitating) | !is.na(never_married)) %>% tally()
+
 # never partnered (0 = no, 1 = yes)
 df_singles %>% group_by(never_partnered) %>% tally()
 
@@ -210,14 +266,21 @@ However, there are additional missings in both the outcome variables and some of
 
 ------------------------------------------------------------------------
 
+### Age
+
 *How old are they?*
 
 ```{r}
 #| echo: true
+# for all participants 
+df_singles %>% filter(!is.na(never_partnered) | !is.na(never_cohabitating) | !is.na(never_married)) %>% 
+  summarise(mean_age = mean(age, na.rm=T), sd_age = sd(age, na.rm=T), 
+            min_age = min(age, na.rm=T), max_age = max(age, na.rm=T))
+
 # never partnered (0 = no, 1 = yes)
 df_singles %>% group_by(never_partnered) %>% 
   summarise(mean_age = mean(age, na.rm=T), sd_age = sd(age, na.rm=T), 
-            min_age = min(age, na.rm=T), max_age = max(age), na.rm=T)
+            min_age = min(age, na.rm=T), max_age = max(age, na.rm=T))
 
 # never cohabitating (0 = no, 1 = yes)
 df_singles %>% group_by(never_cohabitating) %>% 
@@ -230,14 +293,46 @@ df_singles %>% group_by(never_married) %>%
             min_age = min(age, na.rm=T), max_age = max(age, na.rm=T))
 ```
 
-What explains the low minimum age? Younger partners of older household heads? 
+What explains the low minimum age? -> Younger partners of older household heads! 
+
+Only look at those under 50: How many?
+```{r}
+#| echo: true
+# for all participants 
+df_singles %>% filter(age<50 & (!is.na(never_partnered) | !is.na(never_cohabitating) | !is.na(never_married))) %>% 
+  summarise(n = n(), mean_age = mean(age, na.rm=T), sd_age = sd(age, na.rm=T), 
+            min_age = min(age, na.rm=T), max_age = max(age, na.rm=T))
+
+# never partnered (0 = no, 1 = yes)
+df_singles %>% filter(age<50) %>% group_by(never_partnered) %>% 
+  summarise(n = n(), mean_age = mean(age, na.rm=T), sd_age = sd(age, na.rm=T), 
+            min_age = min(age, na.rm=T), max_age = max(age, na.rm=T))
+
+# never cohabitating (0 = no, 1 = yes)
+df_singles %>% filter(age<50) %>% group_by(never_cohabitating) %>% 
+  summarise(n = n(), mean_age = mean(age, na.rm=T), sd_age = sd(age, na.rm=T), 
+            min_age = min(age, na.rm=T), max_age = max(age, na.rm=T))
+
+# never partnered (0 = no, 1 = yes)
+df_singles %>% filter(age<50) %>% group_by(never_married) %>% 
+  summarise(n = n(), mean_age = mean(age, na.rm=T), sd_age = sd(age, na.rm=T), 
+            min_age = min(age, na.rm=T), max_age = max(age, na.rm=T))
+```
 
 ------------------------------------------------------------------------
+
+### Gender 
 
 *Gender ratios in each group?*
 
 ```{r}
 #| echo: true
+# for all participants 
+df_singles %>% filter(!is.na(never_partnered) | !is.na(never_cohabitating) | !is.na(never_married)) %>% 
+  group_by(female) %>% tally()
+df_singles %>% filter(!is.na(never_partnered) | !is.na(never_cohabitating) | !is.na(never_married)) %>% 
+  summarise(n = n(), prop_female = mean(female, na.rm=T)*100)
+
 # never partnered (0 = no, 1 = yes)
 df_singles %>% group_by(never_partnered, female) %>% tally()
 df_singles %>% group_by(never_partnered) %>% summarise(n = n(), prop_female = mean(female, na.rm=T)*100)
@@ -253,6 +348,8 @@ df_singles %>% group_by(never_married) %>% summarise(n = n(), prop_female = mean
 
 ------------------------------------------------------------------------
 
+### Across countries
+
 *How many people from each country?*
 
 ```{r}
@@ -265,8 +362,42 @@ df_singles %>% group_by(country_str) %>% summarise(n = n(), prop_female = mean(f
   print(n=Inf)
 ```
 
-
 Something weird is going on in Malta! 
+
+### Correlation matrix
+
+```{r}
+#| echo: true
+#| warning: false
+#| output: true
+#| code-fold: true
+#| code-summary: "Show the code"
+#| cache: true
+vars = df_singles[, c("female", "age", "life_satisfaction_w", "quality_of_life_w", 
+                      "agreeableness_w", "conscientiousness_w", "extraversion", "neuroticism", "openness",
+                      "never_partnered", "never_cohabitating", "never_married")] %>% mutate_all(list(~ as.numeric(.)))
+cormat <- Hmisc::rcorr(as.matrix(vars), type="pearson") # uses pairwise complete pairs
+cormat <- cormat$r
+
+rownames(cormat) <- c("Gender (1 = f.)", "Age","Life Satisfaction" , "Quality of Life", 
+                      "Agreeableness", "Conscientiousness", "Extraversion", "Neuroticism", "Openness",
+                      "Never partnered", "Never cohabitating", "Never married")
+colnames(cormat) <- c("Gender (1 = f.)", "Age","Life Satisfaction" , "Quality of Life", 
+                      "Agreeableness", "Conscientiousness", "Extraversion", "Neuroticism", "Openness",
+                      "Never partnered", "Never cohabitating", "Never married")
+
+round(cormat, 2)
+```
+
+Plot: Correlation matrix
+```{r}
+#| echo: true
+#| fig-width: 9.5
+#| fig-height: 7.5
+
+corrplot::corrplot(cormat, type = "lower", order = "original", tl.col = "black", 
+                   addCoef.col ='black', number.cex = 0.7, diag = F) # also add numbers
+```
 
 ------------------------------------------------------------------------
 
@@ -356,7 +487,7 @@ sca_b5_p <- specr(specs_b5_p) # run again (for p-values)
 # well-being
 # Setup Specifications
 specs_wb <- specr::setup(data = df_singles, 
-                         y = c("life_satisfaction_p", "quality_of_life_p"), 
+                         y = c("life_satisfaction_p", "quality_of_life_p", "casp_alt_p"), 
                          x = c("never_partnered", "never_cohabitating", "never_married"), 
                          controls = c("age_c", "female", "income_z", "education", 
                                       "religiosity_z", "gender_ratio_z", "singles_proportion_z"),
@@ -365,7 +496,7 @@ specs_wb <- specr::setup(data = df_singles,
 
 # identical, but with p-values pls
 specs_wb_p <- specr::setup(data = df_singles, 
-                         y = c("life_satisfaction_p", "quality_of_life_p"), 
+                         y = c("life_satisfaction_p", "quality_of_life_p", "casp_alt_p"), 
                          x = c("never_partnered", "never_cohabitating", "never_married"), 
                          controls = c("age_c", "female", "income_z", "education", 
                                       "religiosity_z", "gender_ratio_z", "singles_proportion_z"),
@@ -511,6 +642,25 @@ sca_wb$data %>% filter(y %in% c("life_satisfaction_p", "quality_of_life_p")) %>%
 
 ::: {.callout-note appearance="minimal"}
 Substantial effect for both life satisfaction and quality of life. The effect is somewhat stronger for life satisfaction and, again (as for extraversion), for those who were never in a committed relationship or never cohabited with a partner compared to those who were never married. Controlling for covariates (e.g., income, age) does make a substantial difference here.
+:::
+
+Alternative missingness strategy for quality of life (CASP-12 scale): use all observations with 8 or more valid item answers
+```{r}
+#| echo: true
+kable(sca_wb_p$data %>% filter(y %in% c("casp_alt_p")) %>% 
+        select(y, x, controls, estimate, conf.low, conf.high, statistic, p.value, fit_nobs), digits = 3)
+```
+
+Median effect size:
+```{r}
+#| echo: true
+sca_wb$data %>% filter(y %in% c("casp_alt_p")) %>% 
+  group_by(y, x) %>% 
+  summarise(median_est = median(estimate), median_conf.low = median(conf.low), median_conf.high = median(conf.high))
+```
+
+::: {.callout-note appearance="minimal"}
+Very similar overall results!
 :::
 
 ## Exploratory results

@@ -179,6 +179,35 @@ for (i in 2:6) {
 bigfive <- bifi[,1:6]
 
 table(bigfive[2], useNA = "always")
+
+### item-level data -> for reliability
+# Select relevant variables 
+ac7 <- read_dta("data/00_raw/w7/sharew7_rel8-0-0_ac.dta")
+ac8 <- read_dta("data/00_raw/w8/sharew8_rel8-0-0_ac.dta")
+
+ac7 <- ac7 %>% select(mergeid, extra1 = ac701_, extra2 = ac706_, agree1 = ac702_, agree2 = ac707_, agree3 = ac711_,
+                      consc1 = ac703_, consc2 = ac708_, neuro1 = ac704_, neuro2 = ac709_, openn1 = ac705_, openn2 = ac710_)
+ac8 <- ac8 %>% select(mergeid, extra1 = ac701_, extra2 = ac706_, agree1 = ac702_, agree2 = ac707_, agree3 = ac711_,
+                      consc1 = ac703_, consc2 = ac708_, neuro1 = ac704_, neuro2 = ac709_, openn1 = ac705_, openn2 = ac710_)
+
+# Join waves 7 and 8
+bigfive_items <- full_join(ac7, ac8, by="mergeid", suffix=c("", ".8"))
+
+# Substitute missings in wave 7 by wave 8 data
+bifi_items <- bigfive_items
+for (i in 2:12) {
+  j <- i+11
+  bifi_items[is.na(bifi_items[,i]), i] <- bifi_items[is.na(bifi_items[,i]), j]
+}
+
+#Keep only relevant variables
+bigfive_items <- bifi_items[,1:12]
+
+table(bigfive_items[2], useNA = "always")
+# recode b5 missings
+bigfive_items <- bigfive_items %>% 
+  mutate_at(vars(2:12),
+                 list(~ ifelse( . %in% c(-8:-1), NA, .)))
 ```
 
 I then add data on life satifaction, using both the CASP-12 index and the life
@@ -196,12 +225,22 @@ casp <- gvhealth %>% select(mergeid, casp)
 ac <- read_dta("data/00_raw/w7/sharew7_rel8-0-0_ac.dta")
 
 # Keep life satisfaction and mergeid columns
-ac012 <- ac %>% select(mergeid, ac012_)
-
+ac012 <- ac %>% select(mergeid, ac012_, #life satisfaction
+                       casp1 = ac014_, casp2 = ac015_, casp3 = ac016_, casp4 = ac017_, casp5 = ac018_, casp6 = ac019_, # casp items
+                       casp7 = ac020_, casp8 = ac021_, casp9 = ac022_, casp10 = ac023_, casp11 = ac024_, casp12 = ac025_)
+# 1 [Often]   
+# 2 [Sometimes]
+# 3 [Rarely]  
+# 4 [Never]   
 table(ac012$ac012_, useNA = "always")
 
 # Recode missings
 ac012$ac012_[ac012$ac012_ < 0] <- NA
+# recode casp missings
+ac012 <- ac012 %>% 
+  mutate_at(vars(3:14),
+                 list(~ ifelse( . %in% c(-8:-1), NA, .)))
+
 summary(casp) #many SHARE missings!! No data from Romania.
 ```
 
@@ -260,19 +299,17 @@ impu <- read_dta("data/00_raw/w7/sharew7_rel8-0-0_gv_imputations.dta")
 # Use only the first of the imputation values
 income <- impu[impu$implicat==1,] %>%
   select(mergeid, thinc2, thinc)
-
 ```
 
 I then join all datasets, keeping only those cases that match. No IDs are lost 
 in the process.
 ```{r merge datasets}
-
-
 data1 <- full_join(gender, age, by ="mergeid")
 summary(data1)
 data2 <- inner_join(data1, married, by="mergeid")
 data3 <- inner_join(data2, bigfive, by="mergeid")
-data4 <- inner_join(data3, ac012, by="mergeid")
+data3i <- inner_join(data3, bigfive_items, by="mergeid")
+data4 <- inner_join(data3i, ac012, by="mergeid")
 data5 <- inner_join(data4, casp, by="mergeid")
 data6 <- inner_join(data5, educ, by="mergeid")
 data_prepped <- inner_join(data6, income, by="mergeid")

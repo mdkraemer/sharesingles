@@ -11,7 +11,7 @@
 
 <meta name="author" content="Alexander Schumacher" />
 
-<meta name="date" content="2023-07-17" />
+<meta name="date" content="2023-11-08" />
 
 <title>Singles in SHARE Data Prep</title>
 
@@ -352,7 +352,7 @@ display: none;
 
 <h1 class="title toc-ignore">Singles in SHARE Data Prep</h1>
 <h4 class="author">Alexander Schumacher</h4>
-<h4 class="date">2023-07-17</h4>
+<h4 class="date">2023-11-08</h4>
 
 </div>
 
@@ -675,22 +675,22 @@ summary(data_prepped)</code></pre>
 ##                     3rd Qu.:1.000   3rd Qu.:1956   3rd Qu.: 76.00   3rd Qu.:35.00   3rd Qu.:1.0000   3rd Qu.:1.0000  
 ##                     Max.   :1.000   Max.   :1995   Max.   :105.00   Max.   :63.00   Max.   :1.0000   Max.   :1.0000  
 ##                                     NA&#39;s   :7      NA&#39;s   :7                        NA&#39;s   :179      NA&#39;s   :156     
-##     everlat        bfi10_extra     bfi10_agree     bfi10_consc     bfi10_neuro      bfi10_open        ac012_            casp      
-##  Min.   :0.0000   Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   : 0.000   Min.   :12.00  
-##  1st Qu.:1.0000   1st Qu.:3.000   1st Qu.:3.000   1st Qu.:3.500   1st Qu.:2.000   1st Qu.:2.500   1st Qu.: 7.000   1st Qu.:32.00  
-##  Median :1.0000   Median :3.500   Median :3.500   Median :4.000   Median :2.500   Median :3.000   Median : 8.000   Median :37.00  
-##  Mean   :0.9693   Mean   :3.482   Mean   :3.657   Mean   :4.121   Mean   :2.668   Mean   :3.292   Mean   : 7.564   Mean   :36.84  
-##  3rd Qu.:1.0000   3rd Qu.:4.000   3rd Qu.:4.500   3rd Qu.:5.000   3rd Qu.:3.500   3rd Qu.:4.000   3rd Qu.: 9.000   3rd Qu.:42.00  
-##  Max.   :1.0000   Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :10.000   Max.   :48.00  
-##  NA&#39;s   :163      NA&#39;s   :3095    NA&#39;s   :3002    NA&#39;s   :3008    NA&#39;s   :2950    NA&#39;s   :3196    NA&#39;s   :2650     NA&#39;s   :6607   
-##   isced1997_r         thinc2           thinc        
-##  Min.   : 0.000   Min.   :     0   Min.   :      0  
-##  1st Qu.: 2.000   1st Qu.:  8457   1st Qu.:      0  
-##  Median : 3.000   Median : 15600   Median :      0  
-##  Mean   : 3.128   Mean   : 23275   Mean   :   5533  
-##  3rd Qu.: 4.000   3rd Qu.: 30000   3rd Qu.:      0  
-##  Max.   :97.000   Max.   :647657   Max.   :7399056  
-##  NA&#39;s   :171</code></pre>
+##     everlat        bfi10_extra     bfi10_agree     bfi10_consc     bfi10_neuro      bfi10_open        ac012_      
+##  Min.   :0.0000   Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   : 0.000  
+##  1st Qu.:1.0000   1st Qu.:3.000   1st Qu.:3.000   1st Qu.:3.500   1st Qu.:2.000   1st Qu.:2.500   1st Qu.: 7.000  
+##  Median :1.0000   Median :3.500   Median :3.500   Median :4.000   Median :2.500   Median :3.000   Median : 8.000  
+##  Mean   :0.9693   Mean   :3.482   Mean   :3.657   Mean   :4.121   Mean   :2.668   Mean   :3.292   Mean   : 7.564  
+##  3rd Qu.:1.0000   3rd Qu.:4.000   3rd Qu.:4.500   3rd Qu.:5.000   3rd Qu.:3.500   3rd Qu.:4.000   3rd Qu.: 9.000  
+##  Max.   :1.0000   Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :10.000  
+##  NA&#39;s   :163      NA&#39;s   :3095    NA&#39;s   :3002    NA&#39;s   :3008    NA&#39;s   :2950    NA&#39;s   :3196    NA&#39;s   :2650    
+##       casp        isced1997_r         thinc2           thinc        
+##  Min.   :12.00   Min.   : 0.000   Min.   :     0   Min.   :      0  
+##  1st Qu.:32.00   1st Qu.: 2.000   1st Qu.:  8457   1st Qu.:      0  
+##  Median :37.00   Median : 3.000   Median : 15600   Median :      0  
+##  Mean   :36.84   Mean   : 3.128   Mean   : 23275   Mean   :   5533  
+##  3rd Qu.:42.00   3rd Qu.: 4.000   3rd Qu.: 30000   3rd Qu.:      0  
+##  Max.   :48.00   Max.   :97.000   Max.   :647657   Max.   :7399056  
+##  NA&#39;s   :6607    NA&#39;s   :171</code></pre>
 <pre class="r"><code>save(data_prepped, file = &quot;data/01_cleaned/df_singles.rda&quot;)</code></pre>
 </div>
 
